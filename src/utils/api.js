@@ -1,0 +1,1 @@
+export const API = "https://ai-review-s5d5.onrender.com/api"
