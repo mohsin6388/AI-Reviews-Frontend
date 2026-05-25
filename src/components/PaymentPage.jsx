@@ -77,19 +77,41 @@ const PaymentPage = ({user}) => {
         </div>
 
         <div className="pricing-grid">
+          <div className="pricing-card">
+            <span className="plan-badge">Free Plan</span>
+
+            <h2>₹0</h2>
+
+            <p className="plan-duration">Zero Fees</p>
+
+            <div className="plan-features">
+              <p>✔ 15 reviews monthly</p>
+              <p>✔ QR Code Generator</p>
+              <p>✔ Review Dashboard</p>
+              <p>✔ Basic Analytics</p>
+              <p>❌ Customer Review Analytics</p>
+              {/* <p>❌ Review Dashboard</p> */}
+            </div>
+
+            {/* <button className="buy-btn" onClick={handlePayment}>
+              Buy Now
+            </button> */}
+          </div>
+
           {/* STARTER */}
           <div className="pricing-card">
-            <span className="plan-badge">Starter</span>
+            <span className="plan-badge">Pro Plan</span>
 
-            <h2>₹499</h2>
+            <h2>₹999</h2>
 
             <p className="plan-duration">per month</p>
 
             <div className="plan-features">
-              <p>✔ 1 Business</p>
+              <p>✔ 100 Reviews</p>
               <p>✔ QR Code Generator</p>
               <p>✔ Review Dashboard</p>
               <p>✔ Basic Analytics</p>
+              <p>✔ Customer Review Analytics</p>
             </div>
 
             <button className="buy-btn" onClick={handlePayment}>

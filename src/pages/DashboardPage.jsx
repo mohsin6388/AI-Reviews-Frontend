@@ -14,6 +14,7 @@ import PaymentPage from '../components/PaymentPage';
 import logo from "../assets/review-booster-logo2.png";
 import Loading from '../components/Loading';
 import { API } from '../utils/api';
+import ContactUs from '../components/ContactUs';
 
 
 const BUSINESS_TYPES = [
@@ -218,7 +219,7 @@ const DashboardPage = () => {
               className={`sidebar-item ${activeTab === "settings" ? "active" : ""}`}
               onClick={() => setActiveTab("settings")}
             >
-              ⚙️ Settings
+              📞 Contact Us
             </button>
           </div>
         </aside>
@@ -394,29 +395,30 @@ const DashboardPage = () => {
 
           {/* SETTINGS TAB */}
           {activeTab === "settings" && (
-            <div className="content-card animate-fadeIn">
-              <h2 className="reg-title">⚙️ Settings</h2>
+            <ContactUs />
+            // <div className="content-card animate-fadeIn">
+            //   <h2 className="reg-title">⚙️ Contact US</h2>
 
-              <div className="form-group">
-                <label className="form-label">Profile Name</label>
-                <input
-                  className="form-input"
-                  value={user?.name || ""}
-                  readOnly
-                />
-              </div>
+            //   <div className="form-group">
+            //     <label className="form-label">Profile Name</label>
+            //     <input
+            //       className="form-input"
+            //       value={user?.name || ""}
+            //       readOnly
+            //     />
+            //   </div>
 
-              <div className="form-group">
-                <label className="form-label">Email</label>
-                <input
-                  className="form-input"
-                  value={user?.email || ""}
-                  readOnly
-                />
-              </div>
+            //   <div className="form-group">
+            //     <label className="form-label">Email</label>
+            //     <input
+            //       className="form-input"
+            //       value={user?.email || ""}
+            //       readOnly
+            //     />
+            //   </div>
 
-              <button className="btn-secondary">Update Profile</button>
-            </div>
+            //   <button className="btn-secondary">Update Profile</button>
+            // </div>
           )}
         </main>
       </div>
