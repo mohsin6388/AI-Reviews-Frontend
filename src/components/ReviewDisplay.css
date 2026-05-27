@@ -57,6 +57,8 @@
   font-style: italic;
   padding-top: 8px;
 }
+*/
+
 
 .review-steps {
   display: flex;
@@ -98,7 +100,7 @@
 .copy-btn {
   width: 100%;
   padding: 18px 24px;
-  background: linear-gradient(135deg, #facc15, #f59e0b);
+  background: linear-gradient(135deg, #2865E8, #1D4ED8);
   color: #0a0a1a;
   font-family: var(--font-display);
   font-weight: 800;
@@ -139,7 +141,7 @@
   font-size: 11px;
   color: var(--text-muted);
   line-height: 1.5;
-} */
+}
 
 
 .reviews-slider {
