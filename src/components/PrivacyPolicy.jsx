@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, Clock, Info } from "lucide-react";
+import { API } from "../utils/api";
 
 // ─── Markdown Parser ──────────────────────────────────────────────────────────
 
@@ -133,7 +134,7 @@ export default function PrivacyPolicy() {
       try {
         setLoading(true);
         const res = await fetch(
-          "http://localhost:5000/api/admin/privacy-policy",
+          `${API}/admin/privacy-policy`,
           {
             method: "GET",
             // headers: { Authorization: `Bearer ${token}` },

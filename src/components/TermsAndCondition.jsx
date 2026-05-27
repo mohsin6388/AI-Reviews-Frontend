@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API } from "../utils/api";
 
 // Markdown content ko sections mein convert karta hai
 function parseMarkdownToSections(rawContent) {
@@ -44,7 +45,7 @@ export default function TermsAndCondition() {
         setError(null);
 
         const res = await fetch(
-          "http://localhost:5000/api/admin/terms-condition",
+          `${API}/admin/terms-condition`,
           { method: "GET" },
         );
 
