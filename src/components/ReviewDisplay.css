@@ -1,4 +1,4 @@
-.review-display {
+/* .review-display {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -139,4 +139,39 @@
   font-size: 11px;
   color: var(--text-muted);
   line-height: 1.5;
+} */
+
+
+.reviews-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+  margin-top: 20px;
+}
+
+.reviews-slider::-webkit-scrollbar {
+  height: 8px;
+}
+
+.reviews-slider::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 20px;
+}
+
+.review-card {
+  min-width: 320px;
+  max-width: 320px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.review-card .review-text-box {
+  min-height: 180px;
+}
+
+.review-card .copy-btn {
+  width: 100%;
+  margin-top: 16px;
 }

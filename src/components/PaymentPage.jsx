@@ -15,8 +15,8 @@ const PaymentPage = ({user}) => {
         "/payment/create-order",
         {
           user_id: user.id,
-          amount: 999,
-          planName: "Pro",
+          // amount: 999,
+          plan_id: "Premium",
         },
         {
           headers: {
@@ -25,20 +25,23 @@ const PaymentPage = ({user}) => {
         },
       );
 
+      console.log(data); /// remove after testing
+
       const options = {
         key: "rzp_test_SrDMwFfEgXgFpL",
 
-        amount: data.amount,
+        amount: data.order.amount,
 
-        currency: data.currency,
+        currency: data.order.currency,
 
-        order_id: data.id,
+        order_id: data.order.id,
 
-        name: "Review Rocket",
+        name: "Review Booster",
 
-        description: "Pro Plan",
+        description: "Premium Plan",
 
         handler: async function (response) {
+          console.log(response); /// remove afetr testing
           await api.post("/payment/verify-payment", response, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -100,7 +103,7 @@ const PaymentPage = ({user}) => {
 
           {/* STARTER */}
           <div className="pricing-card">
-            <span className="plan-badge">Pro Plan</span>
+            <span className="plan-badge">Premium Plan</span>
 
             <h2>₹999</h2>
 

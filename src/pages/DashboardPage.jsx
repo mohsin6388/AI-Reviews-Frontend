@@ -15,15 +15,10 @@ import logo from "../assets/review-booster-logo2.png";
 import Loading from '../components/Loading';
 import { API } from '../utils/api';
 import ContactUs from '../components/ContactUs';
+import TermsAndCondition from '../components/TermsAndCondition';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import GooglePlaceSearch from '../components/GooglePlaceSearch';
 
-
-const BUSINESS_TYPES = [
-  { value: 'restaurant', label: '🍽️ Restaurant / Dhaba' },
-  { value: 'shop', label: '🛍️ Shop / Store' },
-  { value: 'salon', label: '✂️ Salon / Parlour' },
-  { value: 'hotel', label: '🏨 Hotel / Lodge' },
-  { value: 'default', label: '🏢 Other Business' },
-];
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
@@ -47,6 +42,41 @@ const DashboardPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const [businessTypes, setBusinessTypes] = useState([]);
+
+  const getBusinessTypes = async () => {
+    try {
+      setLoading(true);
+
+      const token = localStorage.getItem("rb_token");
+
+      const response = await fetch(
+        `${API}/business/type/business-type`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setBusinessTypes(data.data);
+      }
+    } catch (error) {
+      console.log("Business Types Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if(activeTab === 'create'){
+      getBusinessTypes();
+    }
+  }, [activeTab]);
+
   // Fetch businesses on mount
   useEffect(() => {
     const fetchBiz = async () => {
@@ -69,6 +99,8 @@ const DashboardPage = () => {
       fetchBiz();
     }
   }, [activeTab]);
+
+
 
   const handleLogout = () => {
     logout();
@@ -184,12 +216,6 @@ const DashboardPage = () => {
       <div className="dashboard-layout">
         {/* Sidebar */}
         <aside className="sidebar">
-          {/* <div className="sidebar-logo">
-            {" "}
-            <img src="" alt="" />
-            Review Booster
-          </div> */}
-
           <div className="sidebar-menu">
             <button
               className={`sidebar-item ${activeTab === "home" ? "active" : ""}`}
@@ -220,6 +246,20 @@ const DashboardPage = () => {
               onClick={() => setActiveTab("settings")}
             >
               📞 Contact Us
+            </button>
+
+            <button
+              className={`sidebar-item ${activeTab === "termsConditions" ? "active" : ""}`}
+              onClick={() => setActiveTab("termsConditions")}
+            >
+              Terms & Condition
+            </button>
+
+            <button
+              className={`sidebar-item ${activeTab === "privacyPolicy" ? "active" : ""}`}
+              onClick={() => setActiveTab("privacyPolicy")}
+            >
+              Privacy Policy
             </button>
           </div>
         </aside>
@@ -276,13 +316,17 @@ const DashboardPage = () => {
                     >
                       <option value="">Select Business Type</option>
 
-                      {BUSINESS_TYPES.map((t) => (
-                        <option key={t.value} value={t.value}>
-                          {t.label}
+                      {businessTypes.map((t) => (
+                        <option key={t.id} value={t.business_type}>
+                          {t.business_type}
                         </option>
                       ))}
                     </select>
                   </div>
+
+                  {/* <div style={{padding: "5px"}}>
+                    <GooglePlaceSearch/>
+                  </div> */}
 
                   {/* Google Place ID */}
                   <div className="form-group full-width">
@@ -394,32 +438,13 @@ const DashboardPage = () => {
           {activeTab === "payments" && <PaymentPage user={user} />}
 
           {/* SETTINGS TAB */}
-          {activeTab === "settings" && (
-            <ContactUs />
-            // <div className="content-card animate-fadeIn">
-            //   <h2 className="reg-title">⚙️ Contact US</h2>
+          {activeTab === "settings" && <ContactUs />}
 
-            //   <div className="form-group">
-            //     <label className="form-label">Profile Name</label>
-            //     <input
-            //       className="form-input"
-            //       value={user?.name || ""}
-            //       readOnly
-            //     />
-            //   </div>
+          {/* SETTINGS TAB */}
+          {activeTab === "termsConditions" && <TermsAndCondition/>}
 
-            //   <div className="form-group">
-            //     <label className="form-label">Email</label>
-            //     <input
-            //       className="form-input"
-            //       value={user?.email || ""}
-            //       readOnly
-            //     />
-            //   </div>
-
-            //   <button className="btn-secondary">Update Profile</button>
-            // </div>
-          )}
+          {/* SETTINGS TAB */}
+          {activeTab === "privacyPolicy" && <PrivacyPolicy />}
         </main>
       </div>
     </div>

@@ -8,3 +8,9 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+
+
+
+//Email:    admin@reviewbooster.in
+// Password: admin123

@@ -72,7 +72,7 @@ const ReviewPage = () => {
         rating,
         selected_tags: selectedTags,
       });
-      setGeneratedReview(res.data.review);
+      setGeneratedReview(res.data.reviews);
       setSessionId(res.data.session_id);
       setStep(STEP.REVIEW);
     } catch (err) {
@@ -191,7 +191,7 @@ const ReviewPage = () => {
             {/* Step: Review */}
             {step === STEP.REVIEW && (
               <ReviewDisplay
-                review={generatedReview}
+                reviews={generatedReview}
                 sessionId={sessionId}
                 googleUrl={googleUrl}
                 onTrackCopied={handleTrackCopied}
