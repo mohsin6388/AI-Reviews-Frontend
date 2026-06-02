@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./BusinessDetails.css";
 import {API} from '../utils/api'
+import api from "../api";
 
 const BusinessDetails = ({ business, setSelectedBusiness, setActiveTab }) => {
 
@@ -31,29 +32,49 @@ const BusinessDetails = ({ business, setSelectedBusiness, setActiveTab }) => {
     fetchReviews();
   }, [business.id]);
 
-  const handleDelete = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("rb_token");
+  // const handleDelete = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem("rb_token");
 
-      const res = await fetch(`${API}/business/${business.id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setPopUp(false);
-        setSelectedBusiness(null);
-        setActiveTab("create")
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
+  //     const res = await fetch(`${API}/business/${business.id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       setPopUp(false);
+  //       setSelectedBusiness(null);
+  //       setActiveTab("create")
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleDelete = async () => {
+  try {
+    setLoading(true);
+
+    const { data } = await api.delete(
+      `/business/${business.id}`
+    );
+
+    if (data.success) {
+      setPopUp(false);
+      setSelectedBusiness(null);
+      setActiveTab("create");
     }
-  };
+  } catch (error) {
+    console.log("Delete Error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>

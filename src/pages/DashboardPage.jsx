@@ -13,11 +13,11 @@ import BusinessState from '../components/BusinessState';
 import PaymentPage from '../components/PaymentPage';
 import logo from "../assets/review-booster-logo2.png";
 import Loading from '../components/Loading';
-import { API } from '../utils/api';
+// import { API } from '../utils/api';
 import ContactUs from '../components/ContactUs';
 import TermsAndCondition from '../components/TermsAndCondition';
 import PrivacyPolicy from '../components/PrivacyPolicy';
-import GooglePlaceSearch from '../components/GooglePlaceSearch';
+import Guide from '../components/Guide';
 
 
 const DashboardPage = () => {
@@ -30,6 +30,7 @@ const DashboardPage = () => {
   // Businesses list
   const [businesses, setBusinesses] = useState([]);
   const [bizLoading, setBizLoading] = useState(true);
+  const [showPlaceIdHelp, setShowPlaceIdHelp] = useState(false);
 
   // QR Create form
   const [form, setForm] = useState({
@@ -48,18 +49,7 @@ const DashboardPage = () => {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem("rb_token");
-
-      const response = await fetch(
-        `${API}/business/type/business-type`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      const data = await response.json();
+      const { data } = await api.get("/business/type/business-type");
 
       if (data.success) {
         setBusinessTypes(data.data);
@@ -71,6 +61,33 @@ const DashboardPage = () => {
     }
   };
 
+  // const getBusinessTypes = async () => {
+  //   try {
+  //     setLoading(true);
+
+  //     const token = localStorage.getItem("rb_token");
+
+  //     const response = await fetch(
+  //       `${API}/business/type/business-type`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (data.success) {
+  //       setBusinessTypes(data.data);
+  //     }
+  //   } catch (error) {
+  //     console.log("Business Types Fetch Error:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   useEffect(() => {
     if(activeTab === 'create'){
       getBusinessTypes();
@@ -78,70 +95,141 @@ const DashboardPage = () => {
   }, [activeTab]);
 
   // Fetch businesses on mount
+  // useEffect(() => {
+  //   const fetchBiz = async () => {
+  //     try {
+  //       const token = localStorage.getItem("rb_token");
+
+  //       const res = await api.get(`/business/${user.id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       }
+  //       });
+  //       setBusinesses(res.data.businesses || []);
+  //     } catch {
+  //       // silently fail — user may have no businesses yet
+  //     } finally {
+  //       setBizLoading(false);
+  //     }
+  //   };
+  //   if(activeTab === "home"){
+  //     fetchBiz();
+  //   }
+  // }, [activeTab]);
+
   useEffect(() => {
     const fetchBiz = async () => {
       try {
-        const token = localStorage.getItem("rb_token");
+        const res = await api.get(`/business/${user.id}`, 
+           {
+             withCredentials: true,
+           }
+        );
 
-        const res = await api.get(`/business/${user.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-        });
         setBusinesses(res.data.businesses || []);
-      } catch {
-        // silently fail — user may have no businesses yet
+      } catch (error) {
+        console.log("Business Fetch Error:", error);
       } finally {
         setBizLoading(false);
       }
     };
-    if(activeTab === "home"){
+
+    if (activeTab === "home" && user?.id) {
       fetchBiz();
     }
-  }, [activeTab]);
+  }, [activeTab, user]);
 
 
 
-  const handleLogout = () => {
+  // const handleLogout = () => {
+  //   logout();
+  //   navigate('/login');
+  // };
+
+  const handleLogout = async () => {
+  try {
+    await api.post("/auth/logout");
+
     logout();
-    navigate('/login');
-  };
+
+    navigate("/login");
+  } catch (error) {
+    console.error(
+      "Logout Error:",
+      error
+    );
+  }
+};
 
   const handleChange = (e) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
 
+  // const handleSubmit = async () => {
+  //   if (!form.name || !form.type || !form.google_place_id) {
+  //     setError('Sab required fields fill karein');
+  //     return;
+  //   }
+  //   setError('');
+  //   setLoading(true);
+  //   try {
+  //     const payload = {
+  //       name: form.name,
+  //       type: form.type,
+  //       google_place_id: form.google_place_id,
+  //       owner_email: form.owner_email || null,
+  //       user_id: user.id
+  //     };
+  //     const token = localStorage.getItem("rb_token");
+      
+  //     const res = await api.post("/business", payload, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     if (res?.data) {
+  //       setResult(res.data);
+  //       // refresh businesses list
+  //       setBusinesses((prev) => [...prev, res.data.business]);
+  //     }
+  //   } catch (err) {
+  //     setError(
+  //       err?.response?.data?.message || err?.message || 'Kuch galat ho gaya'
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async () => {
     if (!form.name || !form.type || !form.google_place_id) {
-      setError('Sab required fields fill karein');
+      setError("Sab required fields fill karein");
       return;
     }
-    setError('');
+
+    setError("");
     setLoading(true);
+
     try {
       const payload = {
         name: form.name,
         type: form.type,
         google_place_id: form.google_place_id,
         owner_email: form.owner_email || null,
-        user_id: user.id
+        user_id: user.id,
       };
-      const token = localStorage.getItem("rb_token");
-      
-      const res = await api.post("/business", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res?.data) {
+
+      const res = await api.post("/business", payload);
+
+      if (res.data?.success) {
         setResult(res.data);
-        // refresh businesses list
+
         setBusinesses((prev) => [...prev, res.data.business]);
       }
     } catch (err) {
       setError(
-        err?.response?.data?.message || err?.message || 'Kuch galat ho gaya'
+        err?.response?.data?.message || err?.message || "Kuch galat ho gaya",
       );
     } finally {
       setLoading(false);
@@ -275,163 +363,196 @@ const DashboardPage = () => {
             />
           )}
 
-          {/* ── CREATE TAB ── */}
           {activeTab === "create" && (
-            <div className="create-business-layout animate-fadeIn">
-              {/* LEFT SIDE */}
-              <div className="create-form-card">
-                <div className="create-header">
-                  <div className="create-badge">New Business</div>
+            <>
+              {!showPlaceIdHelp ? (
+                <div className="create-business-layout animate-fadeIn">
+                  {/* LEFT SIDE */}
+                  <div className="create-form-card">
+                    <div className="create-header">
+                      <div className="create-badge">New Business</div>
 
-                  {/* REMOVE KIYA "Create Review QR" */}
+                      {/* REMOVE KIYA "Create Review QR" */}
 
-                  <p className="create-subtitle">
-                    Add your business details and generate a smart QR code for
-                    collecting customer reviews.
-                  </p>
-                </div>
+                      <p className="create-subtitle">
+                        Add your business details and generate a smart QR code
+                        for collecting customer reviews.
+                      </p>
+                    </div>
 
-                <div className="form-grid">
-                  {/* Business Name */}
-                  <div className="form-group">
-                    <label>Business Name</label>
+                    <div className="form-grid">
+                      {/* Business Name */}
+                      <div className="form-group">
+                        <label>Business Name</label>
 
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="e.g. Sharma Ji Cafe"
-                      value={form.name}
-                      onChange={handleChange}
-                    />
-                  </div>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="e.g. Sharma Ji Cafe"
+                          value={form.name}
+                          onChange={handleChange}
+                        />
+                      </div>
 
-                  {/* Business Type */}
-                  <div className="form-group">
-                    <label>Business Type</label>
+                      {/* Business Type */}
+                      <div className="form-group">
+                        <label>Business Type</label>
 
-                    <select
-                      name="type"
-                      value={form.type}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Business Type</option>
+                        <select
+                          name="type"
+                          value={form.type}
+                          onChange={handleChange}
+                        >
+                          <option value="">Select Business Type</option>
 
-                      {businessTypes.map((t) => (
-                        <option key={t.id} value={t.business_type}>
-                          {t.business_type}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                          {businessTypes.map((t) => (
+                            <option key={t.id} value={t.business_type}>
+                              {t.business_type}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
-                  {/* <div style={{padding: "5px"}}>
+                      {/* <div style={{padding: "5px"}}>
                     <GooglePlaceSearch/>
                   </div> */}
 
-                  {/* Google Place ID */}
-                  <div className="form-group full-width">
-                    <label>Google Place ID</label>
+                      {/* Google Place ID */}
+                      <div className="form-group full-width">
+                        <label>Google Place ID</label>
 
-                    <input
-                      type="text"
-                      name="google_place_id"
-                      placeholder="Enter Google Place ID"
-                      value={form.google_place_id}
-                      onChange={handleChange}
-                    />
+                        <input
+                          type="text"
+                          name="google_place_id"
+                          placeholder="Enter Google Place ID"
+                          value={form.google_place_id}
+                          onChange={handleChange}
+                        />
+
+                        <div
+                          onClick={() => setShowPlaceIdHelp(true)}
+                          style={{
+                            color: "#2563eb",
+                            textDecoration: "underline",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            paddingLeft: "5px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          How to find your Google Business Place ID
+                        </div>
+                      </div>
+
+                      {/* Email */}
+                      <div className="form-group full-width">
+                        <label>Owner Email</label>
+
+                        <input
+                          type="email"
+                          name="owner_email"
+                          placeholder="you@example.com"
+                          value={form.owner_email}
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </div>
+
+                    {error && <div className="error-box">⚠️ {error}</div>}
+
+                    <button
+                      className="generate-btn"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onClick={handleSubmit}
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <div>
+                          <Loading size={20} />
+                        </div>
+                      ) : (
+                        "Generate QR Code"
+                      )}
+                    </button>
                   </div>
 
-                  {/* Email */}
-                  <div className="form-group full-width">
-                    <label>Owner Email</label>
+                  {/* RIGHT SIDE */}
+                  <div className="preview-card">
+                    {!result ? (
+                      <>
+                        <div className="preview-icon">📲</div>
 
-                    <input
-                      type="email"
-                      name="owner_email"
-                      placeholder="you@example.com"
-                      value={form.owner_email}
-                      onChange={handleChange}
-                    />
+                        <h3 style={{ color: "Black" }}>QR Preview</h3>
+
+                        <p style={{ color: "gray" }}>
+                          Your generated review QR code will appear here.
+                        </p>
+
+                        <div className="preview-placeholder">QR CODE</div>
+
+                        <div className="preview-features">
+                          <div
+                            className="feature-item"
+                            style={{ color: "green" }}
+                          >
+                            ✅ Instant QR Generation
+                          </div>
+
+                          <div
+                            className="feature-item"
+                            style={{ color: "green" }}
+                          >
+                            ✅ Google Review Redirect
+                          </div>
+
+                          <div
+                            className="feature-item"
+                            style={{ color: "green" }}
+                          >
+                            ✅ Download PNG QR
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="qr-result-section">
+                        <div className="success-badge">
+                          ✅ QR Generated Successfully
+                        </div>
+
+                        <img
+                          src={result.qrCode}
+                          alt="QR Code"
+                          className="generated-qr"
+                        />
+
+                        <button
+                          className="download-btn"
+                          onClick={handleDownloadQR}
+                        >
+                          Download QR
+                        </button>
+
+                        <div className="review-link-box">
+                          <span style={{ color: "black" }}>
+                            {result.reviewPageUrl}
+                          </span>
+
+                          <button onClick={handleCopyLink}>Copy</button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                {error && <div className="error-box">⚠️ {error}</div>}
-
-                <button
-                  className="generate-btn"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onClick={handleSubmit}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <div>
-                      <Loading size={20} />
-                    </div>
-                  ) : (
-                    "Generate QR Code"
-                  )}
-                </button>
-              </div>
-
-              {/* RIGHT SIDE */}
-              <div className="preview-card">
-                {!result ? (
-                  <>
-                    <div className="preview-icon">📲</div>
-
-                    <h3 style={{ color: "Black" }}>QR Preview</h3>
-
-                    <p style={{ color: "gray" }}>
-                      Your generated review QR code will appear here.
-                    </p>
-
-                    <div className="preview-placeholder">QR CODE</div>
-
-                    <div className="preview-features">
-                      <div className="feature-item" style={{ color: "green" }}>
-                        ✅ Instant QR Generation
-                      </div>
-
-                      <div className="feature-item" style={{ color: "green" }}>
-                        ✅ Google Review Redirect
-                      </div>
-
-                      <div className="feature-item" style={{ color: "green" }}>
-                        ✅ Download PNG QR
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="qr-result-section">
-                    <div className="success-badge">
-                      ✅ QR Generated Successfully
-                    </div>
-
-                    <img
-                      src={result.qrCode}
-                      alt="QR Code"
-                      className="generated-qr"
-                    />
-
-                    <button className="download-btn" onClick={handleDownloadQR}>
-                      Download QR
-                    </button>
-
-                    <div className="review-link-box">
-                      <span style={{ color: "black" }}>
-                        {result.reviewPageUrl}
-                      </span>
-
-                      <button onClick={handleCopyLink}>Copy</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+              ) : (
+                <div className="create-form-card">
+                  <Guide />
+                </div>
+              )}
+            </>
           )}
 
           {/* PAYMENT TAB */}
@@ -441,7 +562,7 @@ const DashboardPage = () => {
           {activeTab === "settings" && <ContactUs />}
 
           {/* SETTINGS TAB */}
-          {activeTab === "termsConditions" && <TermsAndCondition/>}
+          {activeTab === "termsConditions" && <TermsAndCondition />}
 
           {/* SETTINGS TAB */}
           {activeTab === "privacyPolicy" && <PrivacyPolicy />}

@@ -28,9 +28,15 @@ const LoginPage = () => {
       const res = await api.post("/auth/login", {
         email: form.email,
         password: form.password,
-      });
-      login(res.data.user, res.data.token);
-      navigate("/dashboard");
+      },
+      {
+       withCredentials: true,
+      }
+    );
+
+    login(res.data.user);
+    navigate("/dashboard");
+    
     } catch (err) {
       setError(err.message);
     } finally {
