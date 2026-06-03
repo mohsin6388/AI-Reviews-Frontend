@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, Clock, Info } from "lucide-react";
 import { API } from "../utils/api";
+import Loading from "./Loading";
 
 // ─── Markdown Parser ──────────────────────────────────────────────────────────
 
@@ -196,6 +197,38 @@ export default function PrivacyPolicy() {
     );
   }
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: "90vh",
+          background: "linear-gradient(135deg, #f4f7ff 0%, #eef3ff 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              width: 36,
+              height: 36,
+              border: "3px solid #e4e8f0",
+              borderTopColor: "#3d5af1",
+              borderRadius: "50%",
+              animation: "spin .7s linear infinite",
+              margin: "0 auto 12px",
+            }}
+          />
+          <p style={{ color: "#6b7280", fontSize: 14 }}>
+            Loading Privacy Policy…
+          </p>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.page}>
       <div style={styles.container}>
@@ -331,12 +364,13 @@ export default function PrivacyPolicy() {
 const styles = {
   page: {
     minHeight: "100vh",
+    width: "100%",
     background: "linear-gradient(135deg, #f4f7ff 0%, #eef3ff 100%)",
     padding: "24px 20px 48px",
     fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif",
   },
   container: {
-    maxWidth: 760,
+    maxWidth: 1100,
     margin: "0 auto",
     display: "flex",
     flexDirection: "column",

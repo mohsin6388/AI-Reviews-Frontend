@@ -31,6 +31,7 @@ const DashboardPage = () => {
   const [businesses, setBusinesses] = useState([]);
   const [bizLoading, setBizLoading] = useState(true);
   const [showPlaceIdHelp, setShowPlaceIdHelp] = useState(false);
+  
 
   // QR Create form
   const [form, setForm] = useState({
@@ -61,32 +62,6 @@ const DashboardPage = () => {
     }
   };
 
-  // const getBusinessTypes = async () => {
-  //   try {
-  //     setLoading(true);
-
-  //     const token = localStorage.getItem("rb_token");
-
-  //     const response = await fetch(
-  //       `${API}/business/type/business-type`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (data.success) {
-  //       setBusinessTypes(data.data);
-  //     }
-  //   } catch (error) {
-  //     console.log("Business Types Fetch Error:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   useEffect(() => {
     if(activeTab === 'create'){
@@ -94,42 +69,43 @@ const DashboardPage = () => {
     }
   }, [activeTab]);
 
-  // Fetch businesses on mount
+
   // useEffect(() => {
   //   const fetchBiz = async () => {
   //     try {
-  //       const token = localStorage.getItem("rb_token");
+  //       const res = await api.get(`/business/${user.id}`, 
+  //          {
+  //            withCredentials: true,
+  //          }
+  //       );
 
-  //       const res = await api.get(`/business/${user.id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       }
-  //       });
   //       setBusinesses(res.data.businesses || []);
-  //     } catch {
-  //       // silently fail — user may have no businesses yet
+  //     } catch (error) {
+  //       console.log("Business Fetch Error:", error);
   //     } finally {
   //       setBizLoading(false);
   //     }
   //   };
-  //   if(activeTab === "home"){
+
+  //   if (activeTab === "home" && user?.id) {
   //     fetchBiz();
   //   }
-  // }, [activeTab]);
+  // }, [activeTab, user]);
 
   useEffect(() => {
     const fetchBiz = async () => {
+      setLoading(true);
+
       try {
-        const res = await api.get(`/business/${user.id}`, 
-           {
-             withCredentials: true,
-           }
-        );
+        const res = await api.get(`/business/${user.id}`, {
+          withCredentials: true,
+        });
 
         setBusinesses(res.data.businesses || []);
       } catch (error) {
         console.log("Business Fetch Error:", error);
       } finally {
+        setLoading(false);
         setBizLoading(false);
       }
     };
@@ -141,10 +117,8 @@ const DashboardPage = () => {
 
 
 
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate('/login');
-  // };
+
+
 
   const handleLogout = async () => {
   try {
@@ -247,18 +221,19 @@ const DashboardPage = () => {
     link.click();
   };
 
-  const handleCreateAnother = () => {
-    setResult(null);
-    setForm({ name: '', type: '', google_place_id: '', owner_email: '' });
-  };
+  // const handleCreateAnother = () => {
+  //   setResult(null);
+  //   setForm({ name: '', type: '', google_place_id: '', owner_email: '' });
+  // };
 
-  // Greeting based on time
-  const getGreeting = () => {
-    const h = new Date().getHours();
-    if (h < 12) return 'Good Morning';
-    if (h < 17) return 'Good Afternoon';
-    return 'Good Evening';
-  };
+  // // Greeting based on time
+  // const getGreeting = () => {
+  //   const h = new Date().getHours();
+  //   if (h < 12) return 'Good Morning';
+  //   if (h < 17) return 'Good Afternoon';
+  //   return 'Good Evening';
+  // };
+
 
   return (
     <div className="dash-page-wrapper">
@@ -354,15 +329,44 @@ const DashboardPage = () => {
 
         {/* Main Content */}
         <main className="dash-main">
-          {activeTab === "home" && (
-            <BusinessState
-              user={user}
-              businesses={businesses}
-              bizLoading={bizLoading}
-              setActiveTab={setActiveTab}
-            />
-          )}
-
+          {activeTab === "home" &&
+            (loading ? (
+              <div
+                style={{
+                  minHeight: "100vh",
+                  background:
+                    "linear-gradient(135deg, #f4f7ff 0%, #eef3ff 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      border: "3px solid #e4e8f0",
+                      borderTopColor: "#3d5af1",
+                      borderRadius: "50%",
+                      animation: "spin .7s linear infinite",
+                      margin: "0 auto 12px",
+                    }}
+                  />
+                  <p style={{ color: "#6b7280", fontSize: 14 }}>
+                    Loading your businesses...
+                  </p>
+                  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                </div>
+              </div>
+            ) : (
+              <BusinessState
+                user={user}
+                businesses={businesses}
+                bizLoading={bizLoading}
+                setActiveTab={setActiveTab}
+              />
+            ))}
           {activeTab === "create" && (
             <>
               {!showPlaceIdHelp ? (
@@ -549,7 +553,7 @@ const DashboardPage = () => {
                 </div>
               ) : (
                 <div className="create-form-card">
-                  <Guide />
+                  <Guide onBack={() => setShowPlaceIdHelp(false)} />
                 </div>
               )}
             </>

@@ -44,51 +44,90 @@ ${message}
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.heading}>Contact Us</h2>
+        {/* Header */}
+        <div style={styles.header}>
+          <div style={styles.iconWrap}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#2563eb"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <div>
+            <h2 style={styles.heading}>Contact Us</h2>
+            <p style={styles.subheading}>We'll reply within 24 hours</p>
+          </div>
+        </div>
 
+        <div style={styles.divider} />
+
+        {/* Form */}
         <form onSubmit={handleSubmit} style={styles.form}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            style={styles.input}
-          />
+          {/* Name + Email side by side */}
+          <div style={styles.row}>
+            <div style={styles.fieldWrap}>
+              <label style={styles.label}>Name</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.fieldWrap}>
+              <label style={styles.label}>Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                style={styles.input}
+              />
+            </div>
+          </div>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            style={styles.input}
-          />
+          {/* Phone */}
+          <div style={styles.fieldWrap}>
+            <label style={styles.label}>Phone</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="+91 9XX543XXX"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              style={styles.input}
+            />
+          </div>
 
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            style={styles.input}
-          />
-
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            rows="5"
-            style={styles.textarea}
-          />
+          {/* Message */}
+          <div style={styles.fieldWrap}>
+            <label style={styles.label}>Message</label>
+            <textarea
+              name="message"
+              placeholder="How can we help you?"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows="4"
+              style={styles.textarea}
+            />
+          </div>
 
           <button type="submit" style={styles.button}>
-            Send Us
+            Send Message
           </button>
         </form>
       </div>
@@ -98,64 +137,116 @@ ${message}
 
 const styles = {
   container: {
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#f5f7fb",
-    padding: "20px",
+    width: "100%",
+    padding: "20px 16px",
   },
 
   card: {
     width: "100%",
-    maxWidth: "700px",
     background: "#fff",
-    borderRadius: "20px",
-    padding: "35px",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+    borderRadius: "16px",
+    padding: "24px",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
+    border: "1px solid #e5e7eb",
+  },
+
+  header: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    marginBottom: "16px",
+  },
+
+  iconWrap: {
+    width: 40,
+    height: 40,
+    borderRadius: "10px",
+    background: "#eff6ff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
   },
 
   heading: {
-    textAlign: "center",
-    marginBottom: "25px",
-    fontSize: "32px",
+    fontSize: "17px",
     fontWeight: "700",
     color: "#111827",
+    margin: "0 0 2px",
+  },
+
+  subheading: {
+    fontSize: "12px",
+    color: "#9ca3af",
+    margin: 0,
+  },
+
+  divider: {
+    height: "1px",
+    background: "#f1f5f9",
+    marginBottom: "16px",
   },
 
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "16px",
+    gap: "12px",
+  },
+
+  row: {
+    display: "flex",
+    gap: "12px",
+  },
+
+  fieldWrap: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "5px",
+    flex: 1,
+  },
+
+  label: {
+    fontSize: "12px",
+    fontWeight: "600",
+    color: "#374151",
   },
 
   input: {
-    padding: "14px 16px",
-    borderRadius: "12px",
-    border: "1px solid #d1d5db",
-    fontSize: "16px",
+    padding: "10px 12px",
+    borderRadius: "10px",
+    border: "1px solid #e5e7eb",
+    fontSize: "13px",
     outline: "none",
+    color: "#111827",
+    background: "#fafafa",
+    width: "100%",
+    boxSizing: "border-box",
   },
 
   textarea: {
-    padding: "14px 16px",
-    borderRadius: "12px",
-    border: "1px solid #d1d5db",
-    fontSize: "16px",
+    padding: "10px 12px",
+    borderRadius: "10px",
+    border: "1px solid #e5e7eb",
+    fontSize: "13px",
     outline: "none",
     resize: "none",
+    color: "#111827",
+    background: "#fafafa",
+    width: "100%",
+    boxSizing: "border-box",
+    fontFamily: "inherit",
   },
 
   button: {
-    padding: "15px",
+    padding: "11px",
     border: "none",
-    borderRadius: "12px",
-    background: "#2563EB",
+    borderRadius: "10px",
+    background: "#2563eb",
     color: "#fff",
-    fontSize: "17px",
+    fontSize: "14px",
     fontWeight: "600",
     cursor: "pointer",
-    transition: "0.3s",
+    marginTop: "4px",
   },
 };
 

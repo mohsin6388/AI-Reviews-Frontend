@@ -375,7 +375,7 @@ const visualMap = {
 
 /* ─── Main component ─── */
 
-export default function Guide() {
+export default function Guide({ onBack }) {
   const [current, setCurrent] = useState(0);
 
   const step = steps[current];
@@ -395,20 +395,39 @@ export default function Guide() {
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .guide-root {
+       .guide-root {
           font-family: 'DM Sans', sans-serif;
-          min-height: 100vh;
-          background: #f0f4f8;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          padding: 2.5rem 1rem;
+          width: 100%;
+          padding: 0;
+          background: transparent;
         }
 
         .guide-wrap {
-          width: 100%;
-          max-width: 640px;
-        }
+           width: 100%;
+           max-width: 100%;
+         }
+
+         .guide-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+}
+
+.guide-back-btn:hover {
+  background: #f8fafc;
+  border-color: #2563eb;
+  color: #2563eb;
+}
 
         /* Header */
         .guide-head {
@@ -837,6 +856,20 @@ export default function Guide() {
       `}</style>
 
       <div className="guide-root">
+        <div className="guide-back-btn" onClick={onBack}>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+
+          <span>Back to Business Form</span>
+        </div>
         <div className="guide-wrap">
           {/* Header */}
           <div className="guide-head">
