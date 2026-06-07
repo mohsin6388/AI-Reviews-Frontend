@@ -1,9 +1,53 @@
-import React from 'react'
+import React , {useState, useEffect} from 'react'
 import './PaymentPage.css';
 import api from "../api";
+import { API } from "../utils/api"
 
 const PaymentPage = ({user}) => {
 
+  // const [sections, setSections] = useState([]);
+  // const [loading, setLoading] = useState(false);
+
+
+  // useEffect(() => {
+
+  //     const fetchPolicy = async () => {
+  //       try {
+  //         setLoading(true);
+  //         const res = await fetch(
+  //           `${API}/api/payments/check-payment?userId=${user.id}`,
+  //           {
+  //             method: "GET",
+  //             // headers: { Authorization: `Bearer ${token}` },
+  //           },
+  //         );
+  
+  //         if (!res.ok) throw new Error("Failed to fetch");
+  
+  //         const data = await res.json();
+
+  //         console.log(data); /// remove after testing
+  
+  
+  //         // if (data.updated_at) {
+  //         //   setLastUpdated(
+  //         //     new Date(data.updated_at).toLocaleDateString("en-IN", {
+  //         //       day: "numeric",
+  //         //       month: "short",
+  //         //       year: "numeric",
+  //         //     }),
+  //         //   );
+  //         // }
+  //       } catch (err) {
+  //         console.error(err);
+  //         // setError(true);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+  
+  //     fetchPolicy();
+  //   }, []);
 
 
   const handlePayment = async () => {

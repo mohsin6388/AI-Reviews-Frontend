@@ -18,6 +18,7 @@ import ContactUs from '../components/ContactUs';
 import TermsAndCondition from '../components/TermsAndCondition';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import Guide from '../components/Guide';
+import ReviewReply from './ReviewReply';
 
 
 const DashboardPage = () => {
@@ -45,6 +46,12 @@ const DashboardPage = () => {
   const [error, setError] = useState('');
 
   const [businessTypes, setBusinessTypes] = useState([]);
+
+  // const getBusinessLocationAndPlaceId =  async () => {
+  //    const response = await fetch(`http://localhost:5000/api/auth/google/business/location?userId=${user.id}`);
+  //    const data = await response.json();
+  //    console.log(data);
+  // }
 
   const getBusinessTypes = async () => {
     try {
@@ -367,6 +374,11 @@ const DashboardPage = () => {
                 setActiveTab={setActiveTab}
               />
             ))}
+
+          {/* Review Reply */}
+
+          {activeTab === "reviewReply" && <ReviewReply />}
+
           {activeTab === "create" && (
             <>
               {!showPlaceIdHelp ? (
@@ -417,10 +429,7 @@ const DashboardPage = () => {
                         </select>
                       </div>
 
-                      {/* <div style={{padding: "5px"}}>
-                    <GooglePlaceSearch/>
-                  </div> */}
-
+                      
                       {/* Google Place ID */}
                       <div className="form-group full-width">
                         <label>Google Place ID</label>
