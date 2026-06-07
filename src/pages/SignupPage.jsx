@@ -206,7 +206,7 @@ const SignupPage = () => {
         email: form.email,
         password: form.password,
       });
-      login(res.data.user, res.data.token);
+      login(res.data.user);
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
