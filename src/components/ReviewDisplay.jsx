@@ -19,7 +19,7 @@ const ReviewDisplay = ({
 
       console.log("Saving review to backend:", reviewText);
 
-       await api.post("/reviews/save-review", {
+       await api.post("/review/save-review", {
          session_id: sessionId,
          review_text: reviewText,
        });
