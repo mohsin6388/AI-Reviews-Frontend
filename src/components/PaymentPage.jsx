@@ -13,16 +13,9 @@ const PaymentPage = ({user}) => {
     const fetchPaymentStatus = async () => {
       setLoading(true)
       try {
-        const token = localStorage.getItem("rb_token");
 
         const { data } = await api.get(
-          `/payment/check-payment/${user.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+          `/payment/check-payment/${user.id}`);
 
         console.log(data);
 
