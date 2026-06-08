@@ -1,0 +1,2502 @@
+//===========================================================================
+// //===========================================================================
+//===========================================================================
+//============================================================================
+
+import { useState, useEffect, useRef } from "react";
+
+/* ─── useInView hook ──────────────────────────────────────────────────────── */
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold },
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible];
+}
+
+/* ─── Stars ───────────────────────────────────────────────────────────────── */
+function Stars({ count = 5, size = 18 }) {
+  return (
+    <span style={{ display: "inline-flex", gap: 2 }}>
+      {Array.from({ length: count }).map((_, i) => (
+        <span
+          key={i}
+          style={{ fontSize: size, color: "#F7741F", lineHeight: 1 }}
+        >
+          ★
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/* ─── Particles ───────────────────────────────────────────────────────────── */
+function ParticleBg() {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    >
+      {[...Array(18)].map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            width: (i % 3) * 3 + 4,
+            height: (i % 3) * 3 + 4,
+            borderRadius: "50%",
+            background: "rgba(247,116,31,0.15)",
+            left: `${(i * 37 + 10) % 100}%`,
+            top: `${(i * 53 + 5) % 100}%`,
+            animation: `floatP ${4 + i * 0.4}s ease-in-out infinite alternate`,
+            animationDelay: `${i * 0.25}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ─── Google G ────────────────────────────────────────────────────────────── */
+function GoogleG({ size = 32 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48">
+      <path
+        fill="#EA4335"
+        d="M24 9.5c3.14 0 5.95 1.08 8.16 2.85l6.08-6.08C34.52 3.18 29.6 1 24 1 14.8 1 7 6.7 3.55 14.65l7.1 5.52C12.4 14.07 17.73 9.5 24 9.5z"
+      />
+      <path
+        fill="#4285F4"
+        d="M46.5 24.5c0-1.63-.15-3.2-.42-4.7H24v8.9h12.67c-.55 2.96-2.2 5.47-4.67 7.16l7.1 5.52C43.4 37.8 46.5 31.6 46.5 24.5z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M10.65 28.17A14.55 14.55 0 0 1 9.5 24c0-1.44.25-2.83.65-4.17l-7.1-5.52A23.5 23.5 0 0 0 .5 24c0 3.8.9 7.4 2.55 10.6l7.1-5.52z"
+      />
+      <path
+        fill="#34A853"
+        d="M24 46.5c5.6 0 10.3-1.85 13.7-5.02l-7.1-5.52C28.9 37.6 26.6 38.5 24 38.5c-6.27 0-11.6-4.57-13.35-10.67l-7.1 5.52C7 41.8 14.8 46.5 24 46.5z"
+      />
+    </svg>
+  );
+}
+
+/* ─── Phone Mockup ────────────────────────────────────────────────────────── */
+function PhoneMockup() {
+  return (
+    <div
+      style={{
+        position: "relative",
+        width: 220,
+        background: "#0a1628",
+        borderRadius: 36,
+        padding: "12px 8px",
+        boxShadow: "0 32px 80px rgba(7,48,87,0.55), 0 0 0 2px #1a3a5c",
+      }}
+    >
+      <div
+        style={{
+          width: 60,
+          height: 12,
+          background: "#050e1c",
+          borderRadius: 8,
+          margin: "0 auto 10px",
+        }}
+      />
+      <div
+        style={{
+          background: "white",
+          borderRadius: 20,
+          overflow: "hidden",
+          minHeight: 340,
+          padding: 16,
+          display: "flex",
+          flexDirection: "column",
+          gap: 12,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            paddingBottom: 8,
+            borderBottom: "1px solid #f0f0f0",
+          }}
+        >
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              background: "linear-gradient(135deg,#073057,#0a4a8a)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span style={{ color: "white", fontSize: 14, fontWeight: 700 }}>
+              RM
+            </span>
+          </div>
+          <div>
+            <div
+              style={{
+                fontWeight: 700,
+                fontSize: 11,
+                color: "#111",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              Review Mater
+            </div>
+            <div style={{ fontSize: 9, color: "#6b7280" }}>
+              Thanks for your visit!
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            background: "#eff6ff",
+            borderRadius: 12,
+            padding: "10px 12px",
+            border: "1px solid #bfdbfe",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontSize: 11,
+              color: "#1e3a5f",
+              fontWeight: 600,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            How was your experience?
+          </p>
+        </div>
+        {[
+          { emoji: "🤩", label: "Excellent", color: "#073057", selected: true },
+          { emoji: "😊", label: "Good", color: "#F7741F", selected: false },
+          { emoji: "😐", label: "Average", color: "#f59e0b", selected: false },
+        ].map((o) => (
+          <div
+            key={o.label}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              background: "#f9fafb",
+              borderRadius: 10,
+              padding: "8px 12px",
+              border: o.selected
+                ? `2px solid ${o.color}`
+                : "2px solid transparent",
+            }}
+          >
+            <span style={{ fontSize: 18 }}>{o.emoji}</span>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: o.selected ? o.color : "#374151",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              {o.label}
+            </span>
+            {o.selected && (
+              <span
+                style={{
+                  marginLeft: "auto",
+                  fontSize: 10,
+                  background: o.color,
+                  color: "white",
+                  padding: "2px 6px",
+                  borderRadius: 6,
+                  fontFamily: "'Poppins',sans-serif",
+                }}
+              >
+                Selected
+              </span>
+            )}
+          </div>
+        ))}
+        <div
+          style={{
+            background: "linear-gradient(135deg,#eff6ff,#dbeafe)",
+            borderRadius: 12,
+            padding: "8px 12px",
+            border: "1px solid #93c5fd",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 9,
+              color: "#1d4ed8",
+              fontWeight: 700,
+              marginBottom: 4,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            ✨ AI Generating Review...
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              color: "#1e3a5f",
+              lineHeight: 1.5,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            "Amazing experience! Best service in the area — highly recommend!"
+          </div>
+        </div>
+        <div
+          style={{
+            background: "#4285F4",
+            borderRadius: 10,
+            padding: "8px 0",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+          }}
+        >
+          <GoogleG size={14} />
+          <span
+            style={{
+              color: "white",
+              fontSize: 11,
+              fontWeight: 700,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            Post to Google
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── StatCard ────────────────────────────────────────────────────────────── */
+function StatCard({ value, label, icon, delay = 0 }) {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: "rgba(240,245,251,0.07)",
+        border: "1px solid rgba(247,116,31,0.2)",
+        borderRadius: 20,
+        padding: "28px 24px",
+        textAlign: "center",
+        backdropFilter: "blur(16px)",
+        transform: vis ? "translateY(0)" : "translateY(30px)",
+        opacity: vis ? 1 : 0,
+        transition: `all 0.6s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      }}
+    >
+      <div style={{ fontSize: 36, marginBottom: 8 }}>{icon}</div>
+      <div
+        style={{
+          fontSize: 38,
+          fontWeight: 800,
+          color: "#F7741F",
+          fontFamily: "'Poppins',sans-serif",
+          lineHeight: 1,
+        }}
+      >
+        {value}
+      </div>
+      <div
+        style={{
+          fontSize: 13,
+          color: "rgba(240,245,251,0.65)",
+          marginTop: 6,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  );
+}
+
+/* ─── StepCard ────────────────────────────────────────────────────────────── */
+function StepCard({ num, title, desc, icon, delay = 0 }) {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: "white",
+        borderRadius: 24,
+        padding: "32px 28px",
+        position: "relative",
+        boxShadow: "0 8px 40px rgba(7,48,87,0.08), 0 2px 8px rgba(0,0,0,0.04)",
+        border: "1px solid rgba(7,48,87,0.1)",
+        transform: vis ? "translateY(0)" : "translateY(40px)",
+        opacity: vis ? 1 : 0,
+        transition: `all 0.65s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          width: 80,
+          height: 80,
+          background:
+            "linear-gradient(135deg,rgba(7,48,87,0.06),rgba(247,116,31,0.04))",
+          borderRadius: "0 0 0 80px",
+        }}
+      />
+      <div
+        style={{
+          width: 52,
+          height: 52,
+          borderRadius: 16,
+          background: "linear-gradient(135deg,#073057,#0a4a8a)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 24,
+          marginBottom: 16,
+          boxShadow: "0 8px 20px rgba(7,48,87,0.3)",
+        }}
+      >
+        {icon}
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: 20,
+          right: 20,
+          width: 36,
+          height: 36,
+          borderRadius: "50%",
+          background: "rgba(247,116,31,0.1)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontWeight: 800,
+          fontSize: 16,
+          color: "#F7741F",
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {num}
+      </div>
+      <h3
+        style={{
+          margin: "0 0 10px",
+          fontSize: 20,
+          fontWeight: 700,
+          color: "#073057",
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {title}
+      </h3>
+      <p
+        style={{
+          margin: 0,
+          fontSize: 14,
+          color: "#6b7280",
+          lineHeight: 1.7,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {desc}
+      </p>
+    </div>
+  );
+}
+
+/* ─── FeatureRow ──────────────────────────────────────────────────────────── */
+function FeatureRow({ icon, title, desc, delay = 0, reverse = false }) {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        display: "flex",
+        flexDirection: reverse ? "row-reverse" : "row",
+        gap: 48,
+        alignItems: "center",
+        padding: "40px 0",
+        borderBottom: "1px solid rgba(247,116,31,0.1)",
+        transform: vis
+          ? "translateX(0)"
+          : `translateX(${reverse ? 60 : -60}px)`,
+        opacity: vis ? 1 : 0,
+        transition: `all 0.7s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+        flexWrap: "wrap",
+      }}
+    >
+      <div
+        style={{
+          flex: "0 0 auto",
+          width: 80,
+          height: 80,
+          borderRadius: 24,
+          background: "linear-gradient(135deg,#073057,#0a4a8a)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: 36,
+          boxShadow: "0 16px 40px rgba(7,48,87,0.35)",
+          border: "1px solid rgba(247,116,31,0.2)",
+        }}
+      >
+        {icon}
+      </div>
+      <div style={{ flex: 1, minWidth: 200 }}>
+        <h3
+          style={{
+            margin: "0 0 10px",
+            fontSize: 22,
+            fontWeight: 700,
+            color: "white",
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{
+            margin: 0,
+            fontSize: 15,
+            color: "rgba(240,245,251,0.65)",
+            lineHeight: 1.8,
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          {desc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─── TestiCard ───────────────────────────────────────────────────────────── */
+function TestiCard({ name, biz, text, stars = 5, delay = 0 }) {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: "rgba(240,245,251,0.06)",
+        border: "1px solid rgba(247,116,31,0.15)",
+        borderRadius: 20,
+        padding: "28px 24px",
+        backdropFilter: "blur(16px)",
+        transform: vis
+          ? "translateY(0) scale(1)"
+          : "translateY(30px) scale(0.96)",
+        opacity: vis ? 1 : 0,
+        transition: `all 0.6s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+      }}
+    >
+      <Stars count={stars} size={16} />
+      <p
+        style={{
+          margin: "14px 0 20px",
+          fontSize: 14,
+          color: "rgba(240,245,251,0.8)",
+          lineHeight: 1.75,
+          fontStyle: "italic",
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        "{text}"
+      </p>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            background: "linear-gradient(135deg,#073057,#F7741F)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 700,
+            fontSize: 16,
+            color: "white",
+            flexShrink: 0,
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          {name[0]}
+        </div>
+        <div>
+          <div
+            style={{
+              fontWeight: 700,
+              fontSize: 14,
+              color: "white",
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            {name}
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              color: "rgba(240,245,251,0.5)",
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            {biz}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── PricingCard ─────────────────────────────────────────────────────────── */
+function PricingCard({
+  plan,
+  setupPrice,
+  monthlyPrice,
+  audience,
+  features,
+  highlight = false,
+  isCustom = false,
+  delay = 0,
+}) {
+  const [ref, vis] = useInView();
+  const [hov, setHov] = useState(false);
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        background: highlight
+          ? "linear-gradient(145deg,#073057,#0a4a8a)"
+          : "rgba(240,245,251,0.05)",
+        border: highlight
+          ? "1px solid rgba(247,116,31,0.5)"
+          : "1px solid rgba(240,245,251,0.1)",
+        borderRadius: 24,
+        padding: "36px 28px",
+        position: "relative",
+        transform: vis
+          ? hov
+            ? "translateY(-6px) scale(1.02)"
+            : "translateY(0)"
+          : "translateY(40px)",
+        opacity: vis ? 1 : 0,
+        transition: `all 0.5s cubic-bezier(.22,1,.36,1) ${delay}ms`,
+        boxShadow: highlight
+          ? "0 24px 60px rgba(7,48,87,0.45)"
+          : hov
+            ? "0 16px 40px rgba(0,0,0,0.2)"
+            : "none",
+      }}
+    >
+      {highlight && (
+        <div
+          style={{
+            position: "absolute",
+            top: -14,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#F7741F",
+            color: "white",
+            fontSize: 11,
+            fontWeight: 700,
+            padding: "4px 16px",
+            borderRadius: 20,
+            letterSpacing: 1,
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          ⭐ BEST SELLER
+        </div>
+      )}
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 700,
+          color: "#F7741F",
+          letterSpacing: 1,
+          textTransform: "uppercase",
+          marginBottom: 4,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {plan}
+      </div>
+      <div
+        style={{
+          fontSize: 11,
+          color: "rgba(240,245,251,0.55)",
+          marginBottom: 16,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {audience}
+      </div>
+
+      {isCustom ? (
+        <div style={{ marginBottom: 24 }}>
+          <div
+            style={{
+              fontSize: 28,
+              fontWeight: 800,
+              color: "white",
+              fontFamily: "'Poppins',sans-serif",
+              lineHeight: 1.2,
+            }}
+          >
+            Custom Pricing
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              color: "rgba(240,245,251,0.5)",
+              marginTop: 4,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            Min ₹1,999/month
+          </div>
+        </div>
+      ) : (
+        <div style={{ marginBottom: 24 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 4,
+              marginBottom: 6,
+            }}
+          >
+            <span
+              style={{
+                fontSize: 13,
+                color: "rgba(240,245,251,0.6)",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              Setup:{" "}
+            </span>
+            <span
+              style={{
+                fontSize: 28,
+                fontWeight: 800,
+                color: "white",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              ₹{setupPrice}
+            </span>
+            <span
+              style={{
+                fontSize: 12,
+                color: "rgba(240,245,251,0.45)",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              one-time
+            </span>
+          </div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+            <span
+              style={{
+                fontSize: 13,
+                color: "rgba(240,245,251,0.6)",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              +{" "}
+            </span>
+            <span
+              style={{
+                fontSize: 34,
+                fontWeight: 800,
+                color: "#F7741F",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              ₹{monthlyPrice}
+            </span>
+            <span
+              style={{
+                fontSize: 13,
+                color: "rgba(240,245,251,0.5)",
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              /month
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 12,
+          marginBottom: 28,
+        }}
+      >
+        {features.map((f, i) => (
+          <div
+            key={i}
+            style={{ display: "flex", alignItems: "flex-start", gap: 10 }}
+          >
+            <span
+              style={{
+                color: "#F7741F",
+                fontSize: 16,
+                marginTop: 1,
+                flexShrink: 0,
+              }}
+            >
+              ✓
+            </span>
+            <span
+              style={{
+                fontSize: 13,
+                color: "rgba(240,245,251,0.75)",
+                lineHeight: 1.5,
+                fontFamily: "'Poppins',sans-serif",
+              }}
+            >
+              {f}
+            </span>
+          </div>
+        ))}
+      </div>
+      <button
+        style={{
+          width: "100%",
+          padding: "14px 0",
+          background: highlight ? "#F7741F" : "rgba(247,116,31,0.15)",
+          border: highlight ? "none" : "1px solid rgba(247,116,31,0.3)",
+          borderRadius: 12,
+          color: "white",
+          fontSize: 14,
+          fontWeight: 700,
+          cursor: "pointer",
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {isCustom ? "Contact Sales →" : "Get Started →"}
+      </button>
+    </div>
+  );
+}
+
+/* ─── FAQItem ─────────────────────────────────────────────────────────────── */
+function FAQItem({ q, a, delay = 0 }) {
+  const [open, setOpen] = useState(false);
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        borderBottom: "1px solid rgba(247,116,31,0.12)",
+        transform: vis ? "translateX(0)" : "translateX(-30px)",
+        opacity: vis ? 1 : 0,
+        transition: `all 0.5s ease ${delay}ms`,
+      }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          width: "100%",
+          background: "none",
+          border: "none",
+          padding: "20px 0",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          cursor: "pointer",
+          gap: 16,
+        }}
+      >
+        <span
+          style={{
+            fontSize: 16,
+            fontWeight: 600,
+            color: "white",
+            textAlign: "left",
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          {q}
+        </span>
+        <span
+          style={{
+            width: 28,
+            height: 28,
+            borderRadius: "50%",
+            background: open ? "#F7741F" : "rgba(247,116,31,0.15)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 16,
+            color: "#F7741F",
+            flexShrink: 0,
+            transition: "all .3s",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+          }}
+        >
+          +
+        </span>
+      </button>
+      <div
+        style={{
+          overflow: "hidden",
+          maxHeight: open ? 200 : 0,
+          transition: "max-height 0.35s ease",
+          paddingBottom: open ? 16 : 0,
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            fontSize: 14,
+            color: "rgba(240,245,251,0.65)",
+            lineHeight: 1.8,
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          {a}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─── BenefitCard ─────────────────────────────────────────────────────────── */
+function BenefitCard({ icon, title, desc, delay = 0 }) {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: "white",
+        borderRadius: 20,
+        padding: "28px 22px",
+        boxShadow: "0 4px 24px rgba(7,48,87,0.07)",
+        border: "1px solid rgba(7,48,87,0.08)",
+        opacity: vis ? 1 : 0,
+        transform: vis ? "translateY(0)" : "translateY(30px)",
+        transition: `all .6s ease ${delay}ms`,
+      }}
+    >
+      <div style={{ fontSize: 32, marginBottom: 12 }}>{icon}</div>
+      <h3
+        style={{
+          fontSize: 17,
+          fontWeight: 700,
+          color: "#073057",
+          marginBottom: 8,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {title}
+      </h3>
+      <p
+        style={{
+          fontSize: 13,
+          color: "#6b7280",
+          lineHeight: 1.7,
+          margin: 0,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {desc}
+      </p>
+    </div>
+  );
+}
+
+/* ─── Section heading helper ──────────────────────────────────────────────── */
+function SectionHeading({ badge, title, sub, light = false }) {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        textAlign: "center",
+        marginBottom: 56,
+        opacity: vis ? 1 : 0,
+        transform: vis ? "none" : "translateY(20px)",
+        transition: "all .6s",
+      }}
+    >
+      <span
+        style={{
+          fontSize: 12,
+          fontWeight: 700,
+          color: "#F7741F",
+          letterSpacing: 2,
+          textTransform: "uppercase",
+          display: "block",
+          marginBottom: 12,
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {badge}
+      </span>
+      <h2
+        style={{
+          fontSize: "clamp(28px,4vw,46px)",
+          fontWeight: 800,
+          fontFamily: "'Poppins',sans-serif",
+          color: light ? "#073057" : "white",
+          marginBottom: sub ? 14 : 0,
+          lineHeight: 1.2,
+        }}
+        dangerouslySetInnerHTML={{ __html: title }}
+      />
+      {sub && (
+        <p
+          style={{
+            fontSize: 15,
+            color: light ? "#6b7280" : "rgba(240,245,251,0.55)",
+            maxWidth: 500,
+            margin: "0 auto",
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          {sub}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ─── WhySection ──────────────────────────────────────────────────────────── */
+function WhySection() {
+  const [ref, vis] = useInView();
+  return (
+    <section
+      style={{
+        padding: "100px 5%",
+        background: "#050e1c",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(7,48,87,0.35) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 80,
+          alignItems: "center",
+        }}
+      >
+        <div
+          ref={ref}
+          style={{
+            opacity: vis ? 1 : 0,
+            transform: vis ? "none" : "translateX(-40px)",
+            transition: "all .7s ease",
+          }}
+        >
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#F7741F",
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              display: "block",
+              marginBottom: 12,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            DOMINATE THE PLATFORM
+          </span>
+          <h2
+            style={{
+              fontSize: "clamp(30px,4vw,50px)",
+              fontWeight: 800,
+              fontFamily: "'Poppins',sans-serif",
+              lineHeight: 1.15,
+              marginBottom: 20,
+              color: "white",
+            }}
+          >
+            Why Google Reviews
+            <br />
+            <span style={{ color: "#F7741F" }}>Matter The Most</span>
+          </h2>
+          <p
+            style={{
+              fontSize: 15,
+              color: "rgba(240,245,251,0.65)",
+              lineHeight: 1.85,
+              marginBottom: 16,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            <strong style={{ color: "white" }}>
+              93% customers rely on reviews
+            </strong>{" "}
+            to guide their decisions. More reviews = better Google ranking and
+            improved local SEO — your business stands out where it matters most.
+          </p>
+          <p
+            style={{
+              fontSize: 15,
+              color: "rgba(240,245,251,0.65)",
+              lineHeight: 1.85,
+              marginBottom: 32,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            In fact,{" "}
+            <strong style={{ color: "#F7741F" }}>
+              businesses with 112+ reviews
+            </strong>{" "}
+            consistently attract more customers, giving you the competitive edge
+            to grow faster.
+          </p>
+          <button
+            className="btn-primary"
+            style={{ padding: "14px 32px", fontSize: 15 }}
+          >
+            Start Getting Reviews →
+          </button>
+        </div>
+        <div
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}
+        >
+          <StatCard
+            value="73%"
+            label="of all business reviews are on Google"
+            icon="📊"
+            delay={0}
+          />
+          <StatCard
+            value="93%"
+            label="customers trust reviews for decisions"
+            icon="🤝"
+            delay={100}
+          />
+          <StatCard
+            value="112+"
+            label="reviews = more customer attraction"
+            icon="⭐"
+            delay={200}
+          />
+          <StatCard
+            value="4.8x"
+            label="more leads for top-ranked businesses"
+            icon="📈"
+            delay={300}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── NegativeShield ──────────────────────────────────────────────────────── */
+function NegativeShield() {
+  const [ref, vis] = useInView();
+  return (
+    <div
+      ref={ref}
+      style={{
+        maxWidth: 700,
+        margin: "48px auto 0",
+        background: "linear-gradient(135deg,#073057,#0a4a8a)",
+        borderRadius: 24,
+        padding: "32px 40px",
+        display: "flex",
+        gap: 24,
+        alignItems: "flex-start",
+        boxShadow: "0 20px 60px rgba(7,48,87,0.4)",
+        opacity: vis ? 1 : 0,
+        transform: vis ? "none" : "translateY(30px)",
+        transition: "all .7s ease",
+        flexWrap: "wrap",
+      }}
+    >
+      <div style={{ fontSize: 48, flexShrink: 0 }}>🛡️</div>
+      <div>
+        <h3
+          style={{
+            fontFamily: "'Poppins',sans-serif",
+            fontSize: 22,
+            fontWeight: 700,
+            color: "white",
+            marginBottom: 10,
+          }}
+        >
+          Negative Reviews Se Bachaye
+        </h3>
+        <p
+          style={{
+            fontSize: 14,
+            color: "rgba(240,245,251,0.75)",
+            lineHeight: 1.8,
+            margin: 0,
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          Agar koi customer khush nahi hai, unka feedback seedha{" "}
+          <strong style={{ color: "#F7741F" }}>
+            aapke paas private message mein aayega — Google par nahi!
+          </strong>{" "}
+          Aap personally resolve kar sakte hain, bina public damage ke.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─── IndustrySection ─────────────────────────────────────────────────────── */
+function IndustrySection() {
+  const [leftRef, leftVis] = useInView();
+  const [rightRef, rightVis] = useInView();
+  return (
+    <section
+      style={{
+        padding: "100px 5%",
+        background: "#F0F5FB",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 80,
+          alignItems: "center",
+        }}
+      >
+        <div
+          ref={leftRef}
+          style={{
+            opacity: leftVis ? 1 : 0,
+            transform: leftVis ? "none" : "translateX(-40px)",
+            transition: "all .7s ease",
+          }}
+        >
+          <div
+            style={{
+              background: "white",
+              borderRadius: 28,
+              padding: 32,
+              boxShadow: "0 24px 80px rgba(7,48,87,0.12)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 20,
+              }}
+            >
+              <GoogleG size={40} />
+              <div>
+                <div
+                  style={{
+                    fontWeight: 800,
+                    fontSize: 18,
+                    color: "#073057",
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  Google Business
+                </div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "#6b7280",
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  Review Dashboard
+                </div>
+              </div>
+            </div>
+            {[
+              { label: "5 Stars", pct: 78, color: "#073057" },
+              { label: "4 Stars", pct: 15, color: "#F7741F" },
+              { label: "3 Stars", pct: 5, color: "#f59e0b" },
+              { label: "2 Stars", pct: 1, color: "#f97316" },
+              { label: "1 Star", pct: 1, color: "#ef4444" },
+            ].map((r) => (
+              <div
+                key={r.label}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: "#6b7280",
+                    width: 48,
+                    flexShrink: 0,
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  {r.label}
+                </span>
+                <div
+                  style={{
+                    flex: 1,
+                    height: 8,
+                    background: "#f3f4f6",
+                    borderRadius: 4,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${r.pct}%`,
+                      height: "100%",
+                      background: r.color,
+                      borderRadius: 4,
+                    }}
+                  />
+                </div>
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: "#374151",
+                    width: 32,
+                    textAlign: "right",
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  {r.pct}%
+                </span>
+              </div>
+            ))}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginTop: 20,
+                padding: "16px 20px",
+                background: "#eff6ff",
+                borderRadius: 14,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 40,
+                  fontWeight: 800,
+                  color: "#073057",
+                  fontFamily: "'Poppins',sans-serif",
+                }}
+              >
+                4.9
+              </div>
+              <div>
+                <Stars count={5} size={18} />
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: "#6b7280",
+                    marginTop: 4,
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  Based on 247 reviews
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          ref={rightRef}
+          style={{
+            opacity: rightVis ? 1 : 0,
+            transform: rightVis ? "none" : "translateX(40px)",
+            transition: "all .7s ease .1s",
+          }}
+        >
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#F7741F",
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              display: "block",
+              marginBottom: 12,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            THE MOST ADVANCED SMS REVIEW PLATFORM
+          </span>
+          <h2
+            style={{
+              fontSize: "clamp(26px,3.5vw,42px)",
+              fontWeight: 800,
+              fontFamily: "'Poppins',sans-serif",
+              color: "#073057",
+              marginBottom: 20,
+              lineHeight: 1.2,
+            }}
+          >
+            Industry Leader In
+            <br />
+            AI-Powered Review
+            <br />
+            <span style={{ color: "#F7741F" }}>Generation</span>
+          </h2>
+          <p
+            style={{
+              fontSize: 15,
+              color: "#6b7280",
+              lineHeight: 1.85,
+              marginBottom: 16,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            Most review tools offer basic text requests and templated responses
+            — leaving businesses with{" "}
+            <strong style={{ color: "#073057" }}>
+              low response rates and generic reviews that don't move the needle.
+            </strong>
+          </p>
+          <p
+            style={{
+              fontSize: 15,
+              color: "#6b7280",
+              lineHeight: 1.85,
+              marginBottom: 16,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            ReviewMater combines the{" "}
+            <strong style={{ color: "#F7741F" }}>
+              industry's first SMS review system spanning 100+ countries
+            </strong>{" "}
+            with Advanced AI that detects sentiment, crafts personalized review
+            suggestions, and generates intelligent responses.
+          </p>
+          <p
+            style={{
+              fontSize: 15,
+              color: "#374151",
+              fontWeight: 600,
+              lineHeight: 1.85,
+              margin: 0,
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            It's the most complete AI-powered review engine built for businesses
+            that are{" "}
+            <strong style={{ color: "#F7741F" }}>serious about growth.</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── CTABanner ───────────────────────────────────────────────────────────── */
+function CTABanner() {
+  const [ref, vis] = useInView();
+  return (
+    <section
+      style={{
+        padding: "80px 5%",
+        background:
+          "linear-gradient(135deg,#073057 0%,#0a4a8a 50%,#0d5fa0 100%)",
+        position: "relative",
+        overflow: "hidden",
+        textAlign: "center",
+      }}
+    >
+      <ParticleBg />
+      <div
+        ref={ref}
+        style={{
+          maxWidth: 700,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1,
+          opacity: vis ? 1 : 0,
+          transform: vis ? "none" : "translateY(30px)",
+          transition: "all .7s ease",
+        }}
+      >
+        <div style={{ fontSize: 52, marginBottom: 16 }}>🚀</div>
+        <h2
+          style={{
+            fontSize: "clamp(28px,4vw,48px)",
+            fontWeight: 800,
+            fontFamily: "'Poppins',sans-serif",
+            color: "white",
+            marginBottom: 16,
+            lineHeight: 1.2,
+          }}
+        >
+          Aaj Hi Shuru Karein —<br />
+          14 Din Free
+        </h2>
+        <p
+          style={{
+            fontSize: 16,
+            color: "rgba(240,245,251,0.75)",
+            marginBottom: 36,
+            lineHeight: 1.7,
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          2,400+ businesses already grow kar rahe hain Review Mater ke saath.
+          Aapka number kab aayega?
+        </p>
+        <div
+          style={{
+            display: "flex",
+            gap: 16,
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <button
+            style={{
+              padding: "16px 40px",
+              fontSize: 16,
+              fontWeight: 700,
+              background: "#F7741F",
+              color: "white",
+              border: "none",
+              borderRadius: 14,
+              cursor: "pointer",
+              boxShadow: "0 8px 24px rgba(247,116,31,0.4)",
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            Free Trial Shuru Karein →
+          </button>
+          <button
+            style={{
+              padding: "16px 40px",
+              fontSize: 16,
+              fontWeight: 700,
+              background: "transparent",
+              color: "white",
+              border: "2px solid rgba(240,245,251,0.4)",
+              borderRadius: 14,
+              cursor: "pointer",
+              fontFamily: "'Poppins',sans-serif",
+            }}
+          >
+            Sales Se Baat Karein
+          </button>
+        </div>
+        <p
+          style={{
+            marginTop: 20,
+            fontSize: 13,
+            color: "rgba(240,245,251,0.5)",
+            fontFamily: "'Poppins',sans-serif",
+          }}
+        >
+          No credit card required • Cancel anytime • Setup in 5 minutes
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MAIN COMPONENT
+══════════════════════════════════════════════════════════════════════════ */
+export default function ReviewMaterLanding() {
+  const [scrolled, setScrolled] = useState(false);
+  const [heroVis, setHeroVis] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroVis(true), 100);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{-webkit-font-smoothing:antialiased;font-family:'Poppins',sans-serif;}
+        @keyframes floatP{from{transform:translateY(0) scale(1);}to{transform:translateY(-24px) scale(1.3);}}
+        @keyframes bounce-slow{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+        @keyframes spin-slow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+        @keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+        @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+        .btn-primary{background:linear-gradient(135deg,#F7741F,#e05f08);border:none;border-radius:14px;color:white;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .25s;box-shadow:0 8px 24px rgba(247,116,31,0.35);}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(247,116,31,0.5);}
+        .btn-outline{background:transparent;border:1.5px solid rgba(240,245,251,0.4);border-radius:14px;color:white;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .25s;}
+        .btn-outline:hover{background:rgba(247,116,31,0.1);border-color:#F7741F;}
+        a{transition:color .2s;}
+        a:hover{color:#F7741F !important;}
+      `}</style>
+
+      <div
+        style={{
+          background: "#050e1c",
+          color: "white",
+          overflowX: "hidden",
+          minHeight: "100vh",
+          fontFamily: "'Poppins',sans-serif",
+        }}
+      >
+        {/* ── NAVBAR ── */}
+        <nav
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            padding: "0 5%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: 68,
+            background: scrolled ? "rgba(5,14,28,0.92)" : "transparent",
+            backdropFilter: scrolled ? "blur(20px)" : "none",
+            borderBottom: scrolled ? "1px solid rgba(247,116,31,0.12)" : "none",
+            transition: "all .3s ease",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                background: "linear-gradient(135deg,#073057,#0a4a8a)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 900,
+                fontSize: 18,
+                color: "white",
+                boxShadow: "0 4px 16px rgba(7,48,87,0.5)",
+                border: "2px solid #F7741F",
+              }}
+            >
+              R
+            </div>
+            <span
+              style={{
+                fontWeight: 800,
+                fontSize: 20,
+                fontFamily: "'Poppins',sans-serif",
+                color: "white",
+                letterSpacing: -0.5,
+              }}
+            >
+              Review<span style={{ color: "#F7741F" }}>Mater</span>
+            </span>
+          </div>
+          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+            {["Features", "How It Works", "Pricing", "FAQ"].map((l) => (
+              <a
+                key={l}
+                href={`#${l.toLowerCase().replace(/\s/g, "-")}`}
+                style={{
+                  color: "rgba(240,245,251,0.7)",
+                  textDecoration: "none",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  fontFamily: "'Poppins',sans-serif",
+                }}
+              >
+                {l}
+              </a>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button
+              className="btn-outline"
+              style={{ padding: "9px 20px", fontSize: 13 }}
+            >
+              Sign In
+            </button>
+            <button
+              className="btn-primary"
+              style={{ padding: "9px 20px", fontSize: 13 }}
+            >
+              Get Started Free
+            </button>
+          </div>
+        </nav>
+
+        {/* ── HERO ── */}
+        <section
+          style={{
+            minHeight: "100vh",
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(7,48,87,0.6) 0%, #050e1c 70%)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "120px 5% 80px",
+            position: "relative",
+            overflow: "hidden",
+            textAlign: "center",
+          }}
+        >
+          <ParticleBg />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              backgroundImage:
+                "linear-gradient(rgba(247,116,31,0.04) 1px, transparent 1px),linear-gradient(90deg,rgba(247,116,31,0.04) 1px,transparent 1px)",
+              backgroundSize: "60px 60px",
+              maskImage:
+                "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              width: 600,
+              height: 600,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle,rgba(7,48,87,0.2) 0%,transparent 70%)",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+              pointerEvents: "none",
+            }}
+          />
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+              maxWidth: 860,
+              margin: "0 auto",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(247,116,31,0.1)",
+                border: "1px solid rgba(247,116,31,0.25)",
+                borderRadius: 100,
+                padding: "6px 16px",
+                marginBottom: 28,
+                animation: heroVis ? "fadeSlideUp 0.6s ease both" : "none",
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 6,
+                  background: "#F7741F",
+                  borderRadius: "50%",
+                  animation: "pulse 1.5s ease infinite",
+                }}
+              />
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "#F7741F",
+                  fontWeight: 700,
+                  letterSpacing: 1,
+                  textTransform: "uppercase",
+                  fontFamily: "'Poppins',sans-serif",
+                }}
+              >
+                AI-Powered Google Review Generation
+              </span>
+            </div>
+            <h1
+              style={{
+                fontSize: "clamp(40px,7vw,78px)",
+                fontWeight: 800,
+                fontFamily: "'Poppins',sans-serif",
+                lineHeight: 1.1,
+                color: "white",
+                marginBottom: 24,
+                letterSpacing: -2,
+                animation: heroVis ? "fadeSlideUp 0.7s ease 0.1s both" : "none",
+              }}
+            >
+              Turn Every Customer
+              <br />
+              Into a{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg,#F7741F,#ff9a5c,#F7741F)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                5-Star Review
+              </span>
+            </h1>
+            <p
+              style={{
+                fontSize: "clamp(15px,2vw,19px)",
+                color: "rgba(240,245,251,0.65)",
+                maxWidth: 580,
+                margin: "0 auto 36px",
+                lineHeight: 1.7,
+                fontFamily: "'Poppins',sans-serif",
+                animation: heroVis ? "fadeSlideUp 0.7s ease 0.2s both" : "none",
+              }}
+            >
+              Sirf ek QR scan se hamara Smart AI automatic Google review
+              generate karta hai. Negative feedback private rakhta hai. Aur
+              aapki Google Ranking boost karta hai.
+            </p>
+            <div
+              style={{
+                display: "flex",
+                gap: 16,
+                justifyContent: "center",
+                flexWrap: "wrap",
+                marginBottom: 52,
+                animation: heroVis ? "fadeSlideUp 0.7s ease 0.3s both" : "none",
+              }}
+            >
+              <button
+                className="btn-primary"
+                style={{ padding: "16px 36px", fontSize: 16 }}
+              >
+                🚀 Free Trial Shuru Karein
+              </button>
+              <button
+                className="btn-outline"
+                style={{ padding: "16px 36px", fontSize: 16 }}
+              >
+                ▶ Demo Dekhein
+              </button>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                gap: 40,
+                justifyContent: "center",
+                flexWrap: "wrap",
+                animation: heroVis ? "fadeSlideUp 0.7s ease 0.4s both" : "none",
+              }}
+            >
+              {[
+                { n: "2,400+", l: "Businesses Served" },
+                { n: "1.2M+", l: "Reviews Generated" },
+                { n: "4.9★", l: "Avg Rating Boost" },
+              ].map((s) => (
+                <div key={s.n} style={{ textAlign: "center" }}>
+                  <div
+                    style={{
+                      fontSize: 28,
+                      fontWeight: 800,
+                      color: "#F7741F",
+                      fontFamily: "'Poppins',sans-serif",
+                    }}
+                  >
+                    {s.n}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: "rgba(240,245,251,0.5)",
+                      fontFamily: "'Poppins',sans-serif",
+                    }}
+                  >
+                    {s.l}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div
+            style={{
+              marginTop: 64,
+              position: "relative",
+              zIndex: 1,
+              animation: heroVis ? "fadeSlideUp 0.9s ease 0.5s both" : "none",
+            }}
+          >
+            <div style={{ animation: "bounce-slow 3.5s ease-in-out infinite" }}>
+              <PhoneMockup />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                inset: -40,
+                border: "1px dashed rgba(247,116,31,0.15)",
+                borderRadius: "50%",
+                animation: "spin-slow 20s linear infinite",
+                pointerEvents: "none",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  left: "50%",
+                  width: 8,
+                  height: 8,
+                  background: "#F7741F",
+                  borderRadius: "50%",
+                  transform: "translateX(-50%)",
+                }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── TICKER ── */}
+        <div
+          style={{
+            background: "rgba(247,116,31,0.08)",
+            borderTop: "1px solid rgba(247,116,31,0.15)",
+            borderBottom: "1px solid rgba(247,116,31,0.15)",
+            padding: "14px 0",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              animation: "ticker 22s linear infinite",
+              width: "max-content",
+            }}
+          >
+            {[...Array(2)]
+              .fill([
+                "🌟 AI-Powered Reviews",
+                "🚀 Boost Google Ranking",
+                "🛡️ Negative Feedback Shield",
+                "🌐 100+ Countries",
+                "📱 1-Click QR Scan",
+                "💬 Multi-Language Support",
+                "🎯 SEO-Rich Keywords",
+                "⚡ Instant Live Post",
+              ])
+              .flat()
+              .map((t, i) => (
+                <span
+                  key={i}
+                  style={{
+                    padding: "0 32px",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: "rgba(240,245,251,0.7)",
+                    whiteSpace: "nowrap",
+                    letterSpacing: 0.5,
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  {t}
+                </span>
+              ))}
+          </div>
+        </div>
+
+        {/* ── WHY GOOGLE REVIEWS MATTER ── */}
+        <WhySection />
+
+        {/* ── HOW IT WORKS ── */}
+        <section
+          id="how-it-works"
+          style={{ padding: "100px 5%", background: "#F0F5FB" }}
+        >
+          <SectionHeading
+            light
+            badge="SIMPLE PROCESS"
+            title="Sirf 3 Simple Steps Mein"
+            sub="No app download, no long forms. Bas ek scan aur AI baaki kaam karta hai."
+          />
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+              gap: 28,
+            }}
+          >
+            <StepCard
+              num="01"
+              icon="📲"
+              title="Scan the QR Code"
+              delay={0}
+              desc="Customer aapke counter ya table par rakhe Review Mater QR code ko apne phone se scan karte hain. Kisi extra app ki zaroorat nahi."
+            />
+            <StepCard
+              num="02"
+              icon="👆"
+              title="Share the Experience"
+              delay={150}
+              desc="Ek simple page open hoga — customer se experience pucha jayega. Sirf ek option tap karna hai: Excellent, Good, ya Average."
+            />
+            <StepCard
+              num="03"
+              icon="✨"
+              title="AI Magic & Auto-Post"
+              delay={300}
+              desc="Hamara Smart AI ek professional, positive review generate karta hai. Customer 'Post' click kare — aur review seedha Google Business par live!"
+            />
+          </div>
+          <NegativeShield />
+        </section>
+
+        {/* ── FEATURES ── */}
+        <section
+          id="features"
+          style={{
+            padding: "100px 5%",
+            background: "#060d1a",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <ParticleBg />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(ellipse 50% 60% at 20% 50%,rgba(7,48,87,0.3) 0%,transparent 70%)",
+              pointerEvents: "none",
+            }}
+          />
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            <SectionHeading
+              badge="WHY REVIEW MATER"
+              title='Industry Leader in AI-Powered<br/><span style="color:#F7741F">Review Generation</span>'
+            />
+            <FeatureRow
+              icon="🤖"
+              delay={0}
+              title="AI-Generated Keyword-Rich Reviews"
+              desc="Hamara AI sirf normal baatein nahi likhta — aapke business se jude important keywords (Best Food, Great Service, Top Quality) review mein add karta hai, jisse aapki Google Ranking improve hoti hai."
+            />
+            <FeatureRow
+              icon="🌐"
+              delay={100}
+              reverse
+              title="Language No Bar — Multi-Lingual Support"
+              desc="Customer apni comfortable language mein feedback de sakte hain — Hindi, English, Tamil, Bengali, ya koi bhi bhasha. Hamara AI unke liye perfect review taiyar kar dega. 100+ countries mein active."
+            />
+            <FeatureRow
+              icon="⚡"
+              delay={200}
+              title="Instant Live Posting — Zero Friction"
+              desc="Customer ko khud se lamba review type karne ki koi jhanjhat nahi. Ek click mein AI-generated review directly Google Business Profile par live ho jaata hai. Drop-off rate nearly zero."
+            />
+            <FeatureRow
+              icon="📊"
+              delay={300}
+              reverse
+              title="Smart Dashboard & Analytics"
+              desc="Real-time insights dekhein — kitne reviews aye, average rating, keyword performance, aur negative feedback trends. Apne business ki reputation ek jagah se manage karein."
+            />
+            <FeatureRow
+              icon="🔒"
+              delay={400}
+              title="Enterprise-Grade Security"
+              desc="All data encrypted in transit and at rest. GDPR-compliant. Aapke customers ka data 100% safe. API keys, role-based access, instant revoke controls sab included."
+            />
+          </div>
+        </section>
+
+        {/* ── INDUSTRY LEADER ── */}
+        <IndustrySection />
+
+        {/* ── TESTIMONIALS ── */}
+        <section
+          style={{
+            padding: "100px 5%",
+            background: "#050e1c",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <ParticleBg />
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            <SectionHeading
+              badge="CUSTOMER STORIES"
+              title='Businesses That <span style="color:#F7741F">Love Review Mater</span>'
+            />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
+                gap: 24,
+              }}
+            >
+              <TestiCard
+                delay={0}
+                name="Rahul Sharma"
+                biz="Sharma Restaurant, Delhi"
+                stars={5}
+                text="Pehle customers reviews likhna bhul jaate the. Ab QR scan karte hi AI review ready kar deta hai. Hamari Google rating 3.8 se 4.7 ho gayi sirf 2 mahine mein!"
+              />
+              <TestiCard
+                delay={100}
+                name="Priya Mehta"
+                biz="Mehta Beauty Salon, Mumbai"
+                stars={5}
+                text="Negative review shield feature best hai! Ek naraz customer ka feedback seedha mere phone par aaya, Google par nahi. Maine personally call karke issue resolve kiya."
+              />
+              <TestiCard
+                delay={200}
+                name="Arun Patel"
+                biz="Patel Auto Service, Surat"
+                stars={5}
+                text="Multi-language support amazing hai. Hamare Gujarati customers apni bhasha mein feedback dete hain aur AI perfect review banata hai. Business 40% grow kiya!"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── BENEFITS ── */}
+        <section style={{ padding: "100px 5%", background: "#F0F5FB" }}>
+          <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+            <SectionHeading
+              light
+              badge="WHY CHOOSE"
+              title="Review Mater Kyun Choose Karein?"
+            />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+                gap: 20,
+              }}
+            >
+              <BenefitCard
+                icon="⏱️"
+                title="Time Saver"
+                delay={0}
+                desc="Customer ko khud se lamba review type karne ki koi jhanjhat nahi."
+              />
+              <BenefitCard
+                icon="📈"
+                title="Boost Google Ranking"
+                delay={100}
+                desc="Zada aur acche reviews = Google Maps par upar position."
+              />
+              <BenefitCard
+                icon="💰"
+                title="More Sales"
+                delay={200}
+                desc="Naye customers reviews dekh kar hi aate hain — zada reviews = zada sales."
+              />
+              <BenefitCard
+                icon="🛡️"
+                title="Reputation Control"
+                delay={300}
+                desc="Negative feedback private rakhein, public image protect karein."
+              />
+              <BenefitCard
+                icon="🌍"
+                title="100+ Countries"
+                delay={400}
+                desc="Global SMS reach with local language support for every customer."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRICING ── */}
+        <section
+          id="pricing"
+          style={{
+            padding: "100px 5%",
+            background: "#060d1a",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <ParticleBg />
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            <SectionHeading
+              badge="TRANSPARENT PRICING"
+              title="Simple, Affordable Plans"
+              sub="Acrylic QR Standee + AI Engine — sab kuch ek package mein."
+            />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
+                gap: 24,
+              }}
+            >
+              <PricingCard
+                delay={0}
+                plan="Starter / Trial"
+                audience="Chote Vendors, Naye Cafes"
+                setupPrice="999"
+                monthlyPrice="799"
+                features={[
+                  "1 Acrylic QR Standee included",
+                  "Basic AI Engine",
+                  "Up to 50 Reviews/month",
+                  "Negative Feedback Filter",
+                  "Basic Dashboard",
+                  "Email Support",
+                ]}
+              />
+              <PricingCard
+                delay={150}
+                plan="Growth Plan"
+                audience="Busy Restaurants, Salons, Clinics"
+                setupPrice="1,499"
+                monthlyPrice="999"
+                highlight
+                features={[
+                  "2 Premium Acrylic Standees included",
+                  "Unlimited AI Reviews",
+                  "Negative Review Filter",
+                  "Keyword-Rich AI Reviews",
+                  "Multi-Language Support",
+                  "Priority Support",
+                  "Analytics Dashboard",
+                  "Google Ranking Boost Tools",
+                ]}
+              />
+              <PricingCard
+                delay={300}
+                plan="Enterprise / Multi-Location"
+                audience="Multi-branch Brands, Big Hotels"
+                isCustom
+                features={[
+                  "Custom Branded Standees (all branches)",
+                  "Centralized Dashboard for all locations",
+                  "Unlimited Reviews & Locations",
+                  "White-Label Option",
+                  "API Access & Custom Integrations",
+                  "Dedicated Account Manager",
+                  "SLA Guarantee",
+                  "Custom AI Training",
+                ]}
+              />
+            </div>
+            <div style={{ textAlign: "center", marginTop: 32 }}>
+              <p
+                style={{
+                  fontSize: 13,
+                  color: "rgba(240,245,251,0.4)",
+                  fontFamily: "'Poppins',sans-serif",
+                }}
+              >
+                * Setup charges are one-time. Monthly subscription starts after
+                free trial. Enterprise minimum ₹1,999/month.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section
+          id="faq"
+          style={{ padding: "100px 5%", background: "#050e1c" }}
+        >
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            <SectionHeading badge="FAQ" title="Aksar Puche Jane Wale Sawaal" />
+            <FAQItem
+              delay={0}
+              q="Kya yeh Google ke Terms of Service ke against hai?"
+              a="Bilkul nahi. Review Mater customers ke genuine experiences ko conveniently share karne mein madad karta hai. AI sirf review writing mein assist karta hai — content genuine customer experience par based hota hai. Yeh Google TOS compliant hai."
+            />
+            <FAQItem
+              delay={80}
+              q="Customer ko koi app download karni hogi?"
+              a="Nahi! Customer sirf QR code scan karte hain — inbuilt phone camera se. Koi app download karne ki zaroorat nahi. Yeh process fully browser-based hai."
+            />
+            <FAQItem
+              delay={160}
+              q="Negative reviews kaise handle hote hain?"
+              a="Agar customer 'Average' ya lower experience select karta hai, unka feedback Google par post nahi hoga. Instead, aapko directly private message milega jahan aap personally resolve kar sakte hain."
+            />
+            <FAQItem
+              delay={240}
+              q="Kitni languages support hoti hain?"
+              a="Filhaal 25+ languages support hoti hain jismein Hindi, English, Gujarati, Tamil, Telugu, Bengali, Marathi, Punjabi aur aur bhi shamil hain. Customers apni native language mein feedback de sakte hain."
+            />
+            <FAQItem
+              delay={320}
+              q="Free trial available hai?"
+              a="Haan! 14-day free trial available hai bina credit card ke. Aap Starter plan features try kar sakte hain aur decide kar sakte hain ki kaunsa plan best fit hai."
+            />
+            <FAQItem
+              delay={400}
+              q="Acrylic Standee kab milega?"
+              a="Order confirm hone ke baad 5-7 business days mein aapke address par premium acrylic QR standee courier ho jaata hai. Enterprise orders ke liye custom timeline diya jaata hai."
+            />
+          </div>
+        </section>
+
+        {/* ── CTA BANNER ── */}
+        <CTABanner />
+
+        {/* ── FOOTER ── */}
+        <footer
+          style={{
+            background: "#030810",
+            padding: "60px 5% 32px",
+            borderTop: "1px solid rgba(247,116,31,0.1)",
+          }}
+        >
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "2fr 1fr 1fr 1fr",
+                gap: 48,
+                marginBottom: 48,
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    marginBottom: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 10,
+                      background: "linear-gradient(135deg,#073057,#0a4a8a)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 900,
+                      fontSize: 18,
+                      color: "white",
+                      border: "2px solid #F7741F",
+                    }}
+                  >
+                    R
+                  </div>
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      fontSize: 20,
+                      fontFamily: "'Poppins',sans-serif",
+                      color: "white",
+                    }}
+                  >
+                    Review<span style={{ color: "#F7741F" }}>Mater</span>
+                  </span>
+                </div>
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: "rgba(240,245,251,0.45)",
+                    lineHeight: 1.8,
+                    maxWidth: 280,
+                    margin: "0 0 20px",
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  India's most advanced AI-powered Google review generation
+                  platform. Helping businesses grow through authentic customer
+                  voices.
+                </p>
+                <div style={{ display: "flex", gap: 12 }}>
+                  {["𝕏", "in", "f", "▶"].map((s) => (
+                    <div
+                      key={s}
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 10,
+                        background: "rgba(240,245,251,0.07)",
+                        border: "1px solid rgba(240,245,251,0.1)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        fontSize: 14,
+                        color: "rgba(240,245,251,0.6)",
+                      }}
+                    >
+                      {s}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {[
+                {
+                  heading: "Product",
+                  links: [
+                    "Features",
+                    "How It Works",
+                    "Pricing",
+                    "Integrations",
+                    "Changelog",
+                  ],
+                },
+                {
+                  heading: "Company",
+                  links: ["About Us", "Blog", "Careers", "Press", "Contact"],
+                },
+                {
+                  heading: "Legal",
+                  links: [
+                    "Privacy Policy",
+                    "Terms of Service",
+                    "Cookie Policy",
+                    "GDPR",
+                    "Refund Policy",
+                  ],
+                },
+              ].map((col) => (
+                <div key={col.heading}>
+                  <h4
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: "#F7741F",
+                      letterSpacing: 2,
+                      textTransform: "uppercase",
+                      marginBottom: 16,
+                      fontFamily: "'Poppins',sans-serif",
+                    }}
+                  >
+                    {col.heading}
+                  </h4>
+                  {col.links.map((l) => (
+                    <div key={l} style={{ marginBottom: 10 }}>
+                      <a
+                        href="#"
+                        style={{
+                          fontSize: 13,
+                          color: "rgba(240,245,251,0.5)",
+                          textDecoration: "none",
+                          fontFamily: "'Poppins',sans-serif",
+                        }}
+                      >
+                        {l}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                borderTop: "1px solid rgba(240,245,251,0.06)",
+                paddingTop: 24,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: 12,
+              }}
+            >
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "rgba(240,245,251,0.3)",
+                  fontFamily: "'Poppins',sans-serif",
+                }}
+              >
+                © 2025 ReviewMater. All rights reserved. Made with ❤️ in India.
+              </p>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <GoogleG size={16} />
+                <span
+                  style={{
+                    fontSize: 12,
+                    color: "rgba(240,245,251,0.3)",
+                    fontFamily: "'Poppins',sans-serif",
+                  }}
+                >
+                  Trusted Google Partner
+                </span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </>
+  );
+}

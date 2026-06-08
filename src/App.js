@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import './index.css';
 import ForgotPassword from './pages/ForgotPassword';
 import CreatePassword from './pages/CreatePassword';
+import HomeLanding from './pages/Home.text';
 
 // Protected route — redirect to /login if not authenticated
 const PrivateRoute = ({ children }) => {
@@ -28,6 +29,15 @@ function AppRoutes() {
   return (
     <Routes>
       {/* Auth pages */}
+
+      <Route
+        path='/'
+        element={
+          <HomeLanding/>
+        }
+        />
+
+
       <Route
         path="/login"
         element={
