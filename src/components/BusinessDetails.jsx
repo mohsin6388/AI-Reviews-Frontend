@@ -8,6 +8,7 @@ const BusinessDetails = ({ business, setSelectedBusiness, setActiveTab }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [popUp, setPopUp] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -30,32 +31,23 @@ const BusinessDetails = ({ business, setSelectedBusiness, setActiveTab }) => {
       }
     };
     fetchReviews();
-  }, [business.id]);
+  }, [business.id])
 
-  // const handleDelete = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem("rb_token");
+   const handleCopyLink = async () => {
+     try {
+       await navigator.clipboard.writeText(business.user_review_url);
 
-  //     const res = await fetch(`${API}/business/${business.id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     const data = await res.json();
-  //     if (res.ok) {
-  //       setPopUp(false);
-  //       setSelectedBusiness(null);
-  //       setActiveTab("create")
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+       setCopied(true);
 
+       setTimeout(() => {
+         setCopied(false);
+       }, 2000);
+     } catch (error) {
+       console.error("Copy failed:", error);
+     }
+   };
+
+  
   const handleDelete = async () => {
   try {
     setLoading(true);
@@ -163,19 +155,34 @@ const BusinessDetails = ({ business, setSelectedBusiness, setActiveTab }) => {
               </div>
             </div>
 
+
+
             {/* RIGHT - QR */}
-            <div className="qr-card">
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(business.user_review_url)}`}
-                alt="QR Code"
-              />
-              <a
-                href={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(business.user_review_url)}&format=png&download=1`}
-                download="qr-code.png"
-                className="download-btn"
-              >
-                ⬇ Download QR
-              </a>
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%", maxWidth: "500px" }}>
+              <div className="qr-card">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(business.user_review_url)}`}
+                  alt="QR Code"
+                />
+                <a
+                  href={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(business.user_review_url)}&format=png&download=1`}
+                  download="qr-code.png"
+                  className="download-btn"
+                >
+                  ⬇ Download QR
+                </a>
+              </div>
+
+              <div className="review-link-box">
+                   <span style={{ color: "black" }}>
+                     {business.user_review_url}
+                   </span>
+
+                   <button onClick={handleCopyLink}>
+                     {copied ? "Copied!" : "Copy"}
+                   </button>
+              </div>
+
             </div>
           </div>
 

@@ -5,50 +5,38 @@ import { API } from "../utils/api"
 
 const PaymentPage = ({user}) => {
 
-  // const [sections, setSections] = useState([]);
-  // const [loading, setLoading] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
-  // useEffect(() => {
+  useEffect(() => {
+    const fetchPaymentStatus = async () => {
+      try {
+        const token = localStorage.getItem("rb_token");
 
-  //     const fetchPolicy = async () => {
-  //       try {
-  //         setLoading(true);
-  //         const res = await fetch(
-  //           `${API}/api/payments/check-payment?userId=${user.id}`,
-  //           {
-  //             method: "GET",
-  //             // headers: { Authorization: `Bearer ${token}` },
-  //           },
-  //         );
-  
-  //         if (!res.ok) throw new Error("Failed to fetch");
-  
-  //         const data = await res.json();
+        const { data } = await api.get(
+          `/payment/check-payment/${user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
-  //         console.log(data); /// remove after testing
-  
-  
-  //         // if (data.updated_at) {
-  //         //   setLastUpdated(
-  //         //     new Date(data.updated_at).toLocaleDateString("en-IN", {
-  //         //       day: "numeric",
-  //         //       month: "short",
-  //         //       year: "numeric",
-  //         //     }),
-  //         //   );
-  //         // }
-  //       } catch (err) {
-  //         console.error(err);
-  //         // setError(true);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-  
-  //     fetchPolicy();
-  //   }, []);
+        console.log(data);
 
+        setPaymentInfo(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.id) {
+      fetchPaymentStatus();
+    }
+  }, [user]);
 
   const handlePayment = async () => {
     try {
@@ -114,101 +102,115 @@ const PaymentPage = ({user}) => {
   };
 
 
-  return (
-    <div>
-      <div className="pricing-page animate-fadeIn">
-        <div className="pricing-header">
-          <h1>Choose Your Plan</h1>
-
-          <p>Start collecting more Google reviews with powerful QR tools.</p>
-        </div>
-
-        <div className="pricing-grid">
-          <div className="pricing-card">
-            <span className="plan-badge">Free Plan</span>
-
-            <h2>₹0</h2>
-
-            <p className="plan-duration">Zero Fees</p>
-
-            <div className="plan-features">
-              <p>✔ 15 reviews monthly</p>
-              <p>✔ QR Code Generator</p>
-              <p>✔ Review Dashboard</p>
-              <p>✔ Basic Analytics</p>
-              <p>❌ Customer Review Analytics</p>
-              {/* <p>❌ Review Dashboard</p> */}
-            </div>
-
-            {/* <button className="buy-btn" onClick={handlePayment}>
-              Buy Now
-            </button> */}
-          </div>
-
-          {/* STARTER */}
-          <div className="pricing-card">
-            <span className="plan-badge">Premium Plan</span>
-
-            <h2>₹999</h2>
-
-            <p className="plan-duration">per month</p>
-
-            <div className="plan-features">
-              <p>✔ 100 Reviews</p>
-              <p>✔ QR Code Generator</p>
-              <p>✔ Review Dashboard</p>
-              <p>✔ Basic Analytics</p>
-              <p>✔ Customer Review Analytics</p>
-            </div>
-
-            <button className="buy-btn" onClick={handlePayment}>
-              Buy Now
-            </button>
-          </div>
-
-          {/* PRO */}
-          {/* <div className="pricing-card active-plan">
-            <span className="popular-tag">Most Popular</span>
-
-            <span className="plan-badge">Pro</span>
-
-            <h2>₹999</h2>
-
-            <p className="plan-duration">per month</p>
-
-            <div className="plan-features">
-              <p>✔ Unlimited Businesses</p>
-              <p>✔ Unlimited QR Codes</p>
-              <p>✔ AI Review Replies</p>
-              <p>✔ Smart Analytics</p>
-              <p>✔ Priority Support</p>
-            </div>
-
-            <button className="buy-btn">Buy Now</button>
-          </div> */}
-
-          {/* ENTERPRISE */}
-          {/* <div className="pricing-card">
-            <span className="plan-badge">Enterprise</span>
-
-            <h2>₹2999</h2>
-
-            <p className="plan-duration">per month</p>
-
-            <div className="plan-features">
-              <p>✔ Everything in Pro</p>
-              <p>✔ Team Access</p>
-              <p>✔ Custom Branding</p>
-              <p>✔ API Access</p>
-              <p>✔ Dedicated Support</p>
-            </div>
-
-            <button className="buy-btn">Contact Sales</button>
-          </div> */}
-        </div>
+  if (loading) {
+    return (
+      <div className="pricing-page">
+        <h2>Loading...</h2>
       </div>
+    );
+  }
+
+
+
+
+  const isSubscriptionActive =
+  paymentInfo?.isPaid &&
+  paymentInfo?.isSubscriptionActive;
+
+  return (
+    <div className="pricing-page animate-fadeIn">
+      {isSubscriptionActive ? (
+        <div className="subscription-card">
+          <h1>🎉 Premium Plan Active</h1>
+
+          <div className="subscription-details">
+            <div>
+              <h4>Plan</h4>
+              <p>Premium</p>
+            </div>
+
+            <div>
+              <h4>Payment Date</h4>
+              <p>
+                {new Date(paymentInfo.payment.paid_at).toLocaleDateString(
+                  "en-IN",
+                )}
+              </p>
+            </div>
+
+            <div>
+              <h4>Expiry Date</h4>
+              <p>
+                {new Date(paymentInfo.payment.end_date).toLocaleDateString(
+                  "en-IN",
+                )}
+              </p>
+            </div>
+
+            <div>
+              <h4>Status</h4>
+              <p>Active ✅</p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="pricing-header">
+            <h1>Choose Your Plan</h1>
+
+            <p>Start collecting more Google reviews with powerful QR tools.</p>
+          </div>
+
+          <div className="pricing-grid">
+            {/* FREE CARD */}
+            <div className="pricing-card">
+              <span className="plan-badge">Free Plan</span>
+
+              <h2>₹0</h2>
+
+              <p className="plan-duration">Zero Fees</p>
+
+              <div className="plan-features">
+                <p>✔ 15 reviews monthly</p>
+                <p>✔ QR Code Generator</p>
+                <p>✔ Review Dashboard</p>
+                <p>✔ Basic Analytics</p>
+                <p>❌ Customer Review Analytics</p>
+              </div>
+            </div>
+
+            {/* PREMIUM CARD */}
+            <div className="pricing-card">
+              <span className="plan-badge">Premium Plan</span>
+
+              <h2>₹999</h2>
+
+              <p className="plan-duration">per month</p>
+
+              <div className="plan-features">
+                <p>✔ 100 Reviews</p>
+                <p>✔ QR Code Generator</p>
+                <p>✔ Review Dashboard</p>
+                <p>✔ Basic Analytics</p>
+                <p>✔ Customer Review Analytics</p>
+              </div>
+
+              <button className="buy-btn" onClick={handlePayment}>
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
+
+ 
+ 
+
+
+
 }
+
 
 export default PaymentPage

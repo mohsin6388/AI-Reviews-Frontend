@@ -103,9 +103,9 @@ const BusinessState = ({ user, businesses, bizLoading, setActiveTab }) => {
 
                 <div className="business-meta">
                   <div className="meta-row">
-                    <span>Business ID</span>
+                    <span>Generated Reviews</span>
 
-                    <strong style={{ color: "black" }}>{biz.id}</strong>
+                    <strong style={{ color: "black" }}>{biz.total_reviews_generated}</strong>
                   </div>
 
                   <div className="meta-row">

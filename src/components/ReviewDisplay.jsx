@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../api"; 
 import "./ReviewDisplay.css";
 
 const ReviewDisplay = ({
@@ -15,6 +16,14 @@ const ReviewDisplay = ({
     try {
       // Review state me save karo
       setSelectedReview(reviewText);
+
+      console.log("Saving review to backend:", reviewText);
+
+       await api.post("/reviews/save-review", {
+         session_id: sessionId,
+         review_text: reviewText,
+       });
+
 
       await navigator.clipboard.writeText(reviewText);
 

@@ -1,172 +1,9 @@
-// import React, { useState } from 'react';
-// import { useNavigate, Link } from 'react-router-dom';
-// import api from '../api';
-// import { useAuth } from '../context/AuthContext';
-// import './AuthPage.css';
-
-// const SignupPage = () => {
-//   const navigate = useNavigate();
-//   const { login } = useAuth();
-
-//   const [form, setForm] = useState({
-//     name: '',
-//     email: '',
-//     password: '',
-//     confirm_password: '',
-//   });
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState('');
-
-//   const handleChange = (e) => {
-//     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-//   };
-
-//   const handleSubmit = async () => {
-//     if (!form.name || !form.email || !form.password) {
-//       setError('Sab required fields fill karein');
-//       return;
-//     }
-//     if (form.password !== form.confirm_password) {
-//       setError('Passwords match nahi kar rahe');
-//       return;
-//     }
-//     if (form.password.length < 6) {
-//       setError('Password kam se kam 6 characters ka hona chahiye');
-//       return;
-//     }
-
-//     setError('');
-//     setLoading(true);
-//     try {
-//       const res = await api.post('/auth/signup', {
-//         name: form.name,
-//         email: form.email,
-//         password: form.password,
-//       });
-//       // Expected response: { user: {...}, token: "..." }
-//       login(res.data.user, res.data.token);
-//       navigate('/dashboard');
-//     } catch (err) {
-//       setError(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="page-wrapper">
-//       <div className="orb orb-1" />
-//       <div className="orb orb-2" />
-
-//       <div className="content-card animate-fadeUp auth-card" style={{ marginTop: 24 }}>
-//         {/* Logo / Brand */}
-//         <div className="auth-header">
-//           <div className="auth-logo">🚀</div>
-//           <h1 className="auth-title">Review Booster</h1>
-//           <p className="auth-subtitle">Naya account banayein — free mein!</p>
-//         </div>
-
-//         <div className="divider" style={{ margin: '20px 0' }} />
-
-//         <div className="form-group">
-//           <label className="form-label">Full Name *</label>
-//           <div className="input-with-icon">
-//             <span className="input-icon">👤</span>
-//             <input
-//               className="form-input input-padded"
-//               name="name"
-//               placeholder="Rahul Sharma"
-//               value={form.name}
-//               onChange={handleChange}
-//               autoComplete="name"
-//             />
-//           </div>
-//         </div>
-
-//         <div className="form-group">
-//           <label className="form-label">Email Address *</label>
-//           <div className="input-with-icon">
-//             <span className="input-icon">✉️</span>
-//             <input
-//               className="form-input input-padded"
-//               name="email"
-//               type="email"
-//               placeholder="you@example.com"
-//               value={form.email}
-//               onChange={handleChange}
-//               autoComplete="email"
-//             />
-//           </div>
-//         </div>
-
-//         <div className="form-group">
-//           <label className="form-label">Password *</label>
-//           <div className="input-with-icon">
-//             <span className="input-icon">🔒</span>
-//             <input
-//               className="form-input input-padded"
-//               name="password"
-//               type="password"
-//               placeholder="Min. 6 characters"
-//               value={form.password}
-//               onChange={handleChange}
-//               autoComplete="new-password"
-//             />
-//           </div>
-//         </div>
-
-//         <div className="form-group">
-//           <label className="form-label">Confirm Password *</label>
-//           <div className="input-with-icon">
-//             <span className="input-icon">🔒</span>
-//             <input
-//               className="form-input input-padded"
-//               name="confirm_password"
-//               type="password"
-//               placeholder="Password dobara likhein"
-//               value={form.confirm_password}
-//               onChange={handleChange}
-//               autoComplete="new-password"
-//             />
-//           </div>
-//         </div>
-
-//         {error && <p className="form-error">⚠️ {error}</p>}
-
-//         <button
-//           className="btn-primary"
-//           onClick={handleSubmit}
-//           disabled={loading}
-//           style={{ marginTop: '8px' }}
-//         >
-//           {loading ? (
-//             <><div className="spinner" /> Creating account...</>
-//           ) : (
-//             '🚀 Account Banayein'
-//           )}
-//         </button>
-
-//         <div className="auth-footer">
-//           <span>Pehle se account hai?</span>
-//           <Link to="/login" className="auth-link">Login karein →</Link>
-//         </div>
-//       </div>
-
-//       <div className="footer-brand">
-//         <span>Powered by</span>
-//         <span className="brand-name">🚀 Review Booster</span>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignupPage;
-
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api";
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/review-booster-logo2.png";
+import toast from "react-hot-toast";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -194,8 +31,8 @@ const SignupPage = () => {
       setError("Passwords match nahi kar rahe");
       return;
     }
-    if (form.password.length < 6) {
-      setError("Password kam se kam 6 characters ka hona chahiye");
+    if (form.password.length < 8) {
+      setError("Password kam se kam 8 characters ka hona chahiye");
       return;
     }
     setError("");
@@ -206,11 +43,11 @@ const SignupPage = () => {
         email: form.email,
         password: form.password,
       });
-      login(res.data.user);
+      login(res.data.user, res.data.token);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
-    } finally {
+       setError(err.message);
+} finally {
       setLoading(false);
     }
   };

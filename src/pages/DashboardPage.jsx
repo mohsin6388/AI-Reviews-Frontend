@@ -18,7 +18,6 @@ import ContactUs from '../components/ContactUs';
 import TermsAndCondition from '../components/TermsAndCondition';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import Guide from '../components/Guide';
-import ReviewReply from './ReviewReply';
 
 
 const DashboardPage = () => {
@@ -46,12 +45,8 @@ const DashboardPage = () => {
   const [error, setError] = useState('');
 
   const [businessTypes, setBusinessTypes] = useState([]);
+  const [copied, setCopied] = useState(false);
 
-  // const getBusinessLocationAndPlaceId =  async () => {
-  //    const response = await fetch(`http://localhost:5000/api/auth/google/business/location?userId=${user.id}`);
-  //    const data = await response.json();
-  //    console.log(data);
-  // }
 
   const getBusinessTypes = async () => {
     try {
@@ -77,27 +72,6 @@ const DashboardPage = () => {
   }, [activeTab]);
 
 
-  // useEffect(() => {
-  //   const fetchBiz = async () => {
-  //     try {
-  //       const res = await api.get(`/business/${user.id}`, 
-  //          {
-  //            withCredentials: true,
-  //          }
-  //       );
-
-  //       setBusinesses(res.data.businesses || []);
-  //     } catch (error) {
-  //       console.log("Business Fetch Error:", error);
-  //     } finally {
-  //       setBizLoading(false);
-  //     }
-  //   };
-
-  //   if (activeTab === "home" && user?.id) {
-  //     fetchBiz();
-  //   }
-  // }, [activeTab, user]);
 
   useEffect(() => {
     const fetchBiz = async () => {
@@ -109,6 +83,7 @@ const DashboardPage = () => {
         });
 
         setBusinesses(res.data.businesses || []);
+        console.log("Fetched Businesses:", res.data.businesses);
       } catch (error) {
         console.log("Business Fetch Error:", error);
       } finally {
@@ -147,42 +122,6 @@ const DashboardPage = () => {
   };
 
 
-  // const handleSubmit = async () => {
-  //   if (!form.name || !form.type || !form.google_place_id) {
-  //     setError('Sab required fields fill karein');
-  //     return;
-  //   }
-  //   setError('');
-  //   setLoading(true);
-  //   try {
-  //     const payload = {
-  //       name: form.name,
-  //       type: form.type,
-  //       google_place_id: form.google_place_id,
-  //       owner_email: form.owner_email || null,
-  //       user_id: user.id
-  //     };
-  //     const token = localStorage.getItem("rb_token");
-      
-  //     const res = await api.post("/business", payload, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     if (res?.data) {
-  //       setResult(res.data);
-  //       // refresh businesses list
-  //       setBusinesses((prev) => [...prev, res.data.business]);
-  //     }
-  //   } catch (err) {
-  //     setError(
-  //       err?.response?.data?.message || err?.message || 'Kuch galat ho gaya'
-  //     );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     if (!form.name || !form.type || !form.google_place_id) {
       setError("Sab required fields fill karein");
@@ -217,9 +156,23 @@ const DashboardPage = () => {
     }
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(result.reviewPageUrl);
-  };
+  // const handleCopyLink = () => {
+  //   navigator.clipboard.writeText(result.reviewPageUrl);
+  // };
+
+   const handleCopyLink = async () => {
+     try {
+       await navigator.clipboard.writeText(result.reviewPageUrl);
+
+       setCopied(true);
+
+       setTimeout(() => {
+         setCopied(false);
+       }, 2000);
+     } catch (error) {
+       console.error("Copy failed:", error);
+     }
+   };
 
   const handleDownloadQR = () => {
     const link = document.createElement('a');
@@ -294,28 +247,28 @@ const DashboardPage = () => {
                 setResult(null);
               }}
             >
-              🏢 Businesses
+              Businesses
             </button>
 
             <button
               className={`sidebar-item ${activeTab === "create" ? "active" : ""}`}
               onClick={() => setActiveTab("create")}
             >
-              ➕ New Business
+              New Business
             </button>
 
             <button
               className={`sidebar-item ${activeTab === "payments" ? "active" : ""}`}
               onClick={() => setActiveTab("payments")}
             >
-              💳 Payment Method
+              Payment Method
             </button>
 
             <button
               className={`sidebar-item ${activeTab === "settings" ? "active" : ""}`}
               onClick={() => setActiveTab("settings")}
             >
-              📞 Contact Us
+              Contact Us
             </button>
 
             <button
@@ -375,9 +328,7 @@ const DashboardPage = () => {
               />
             ))}
 
-          {/* Review Reply */}
-
-          {activeTab === "reviewReply" && <ReviewReply />}
+  
 
           {activeTab === "create" && (
             <>
@@ -554,7 +505,9 @@ const DashboardPage = () => {
                             {result.reviewPageUrl}
                           </span>
 
-                          <button onClick={handleCopyLink}>Copy</button>
+                          <button onClick={handleCopyLink}>
+                            {copied ? "Copied!" : "Copy"}
+                          </button>
                         </div>
                       </div>
                     )}
