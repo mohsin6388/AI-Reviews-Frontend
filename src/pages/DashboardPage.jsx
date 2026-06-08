@@ -103,6 +103,7 @@ const DashboardPage = () => {
 
 
   const handleLogout = async () => {
+    setLoading(true)
   try {
     await api.post("/auth/logout");
 
@@ -114,6 +115,8 @@ const DashboardPage = () => {
       "Logout Error:",
       error
     );
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -230,8 +233,10 @@ const DashboardPage = () => {
             </span>
             <span className="dash-user-name">{user?.name || "User"}</span>
           </div>
-          <button className="dash-logout-btn" onClick={handleLogout}>
-            Logout
+          <button className="dash-logout-btn" onClick={handleLogout}
+                  disabled={loading}
+               >
+            {loading ? "Logging out..." : "Logout"}
           </button>
         </div>
       </header>
