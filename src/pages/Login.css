@@ -1,0 +1,285 @@
+.shell {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  font-family: "DM Sans", sans-serif;
+  background: #f0f5fb;
+}
+
+.left {
+  width: 560px;
+  flex-shrink: 0;
+  background: white;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  background: #378add;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.brand-name {
+  font-size: 17px;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.tagline-heading {
+  font-size: 45px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -2.5px;
+  margin: 0 0 22px;
+  color: #073057;
+  font-family: "Poppins", sans-serif;
+}
+
+.highlight-text {
+  color: #ff741c;
+  position: relative;
+}
+
+.tagline-body {
+  font-size: 18px;
+  color: rgba(7, 48, 87, 0.75);
+  font-weight: 400;
+}
+
+.quick-label {
+  font-size: 11px;
+  color: #378add;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 8px;
+}
+
+.quick-item {
+  font-size: 13px;
+  color: #85b7eb;
+  margin: 4px 0;
+}
+
+.right {
+  flex: 1;
+  background: #f0f5fb;
+  padding: 64px 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 490px;
+  background: #fff;
+  border: 1px solid #b5d4f4;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 4px 24px rgba(14, 68, 124, 0.08);
+}
+
+.portal-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 6px;
+  font-weight: 500;
+}
+
+.heading {
+  font-size: 26px;
+  color: #042c53;
+  font-weight: 700;
+  margin: 0;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #185fa5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 14px 0 38px;
+  border: 1px solid #b5d4f4;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #042c53;
+  background: #f0f5fb;
+  outline: none;
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #378add;
+  text-decoration: none;
+}
+
+.error-box {
+  background: #fcebeb;
+  border: 1px solid #f7c1c1;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #791f1f;
+  margin-bottom: 16px;
+}
+
+.btn {
+  width: 100%;
+  height: 46px;
+  background: #185fa5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: 13px;
+  color: #888780;
+  margin-top: 20px;
+}
+
+.footer-link {
+  color: #185fa5;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e6f1fb;
+}
+
+.trust-item {
+  font-size: 11px;
+  color: #85b7eb;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .shell {
+    flex-direction: column;
+  }
+
+  .left {
+    width: 100%;
+    padding: 24px;
+  }
+
+  .right {
+    padding: 24px;
+  }
+
+  .tagline-heading {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .left {
+    padding: 20px;
+  }
+
+  .right {
+    padding: 16px;
+  }
+
+  .form-card {
+    padding: 24px 20px;
+  }
+
+  .tagline-heading {
+    font-size: 32px;
+    letter-spacing: -1px;
+  }
+
+  .tagline-body {
+    font-size: 15px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .quick-access {
+    display: none;
+  }
+
+  .logo {
+    width: 120px !important;
+    height: 120px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .left {
+    padding: 16px;
+  }
+
+  .right {
+    padding: 12px;
+  }
+
+  .form-card {
+    padding: 20px 16px;
+  }
+
+  .tagline-heading {
+    font-size: 28px;
+  }
+
+  .trust-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

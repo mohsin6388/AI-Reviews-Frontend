@@ -1817,7 +1817,7 @@ export default function ReviewMaterLanding() {
               }}
             >
               <div>
-                <div
+                {/* <div
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -1851,6 +1851,41 @@ export default function ReviewMaterLanding() {
                     }}
                   >
                     Review<span style={{ color: "#FF8C42" }}>Mater</span>
+                  </span>
+                </div> */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, padding: 8 }}>
+                  <div
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      // background: "linear-gradient(135deg,#073057,#0a4a8a)",
+                      background: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 900,
+                      fontSize: 17,
+                      color: "white",
+                      border: "2px solid #FF8C42",
+                    }}
+                  >
+                    <img
+                      src={logo}
+                      alt="logo"
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </div>
+
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      fontSize: 19,
+                      fontFamily: "'Sora',sans-serif",
+                      color: "white",
+                    }}
+                  >
+                    Review <span style={{ color: "#FF8C42" }}> Mater</span>
                   </span>
                 </div>
                 <p
