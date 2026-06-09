@@ -522,7 +522,10 @@ const DashboardPage = () => {
           {activeTab === "privacyPolicy" && <PrivacyPolicy />}
         </main>
       </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> d356b67423eb67f6416a5c9778bceecddec4c901
     </div>
   );
 };
