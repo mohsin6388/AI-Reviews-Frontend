@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import logo from "../assets/review-booster-logo2.png"
 
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
@@ -681,6 +682,7 @@ function PricingCard({
           </div>
         ))}
       </div>
+
       <button
         style={{
           width: "100%",
@@ -693,10 +695,13 @@ function PricingCard({
           fontWeight: 700,
           cursor: "pointer",
           fontFamily: "'Poppins',sans-serif",
+          marginTop: "auto",
         }}
       >
         {isCustom ? "Contact Sales →" : "Get Started →"}
       </button>
+
+
     </div>
   );
 }
@@ -797,7 +802,7 @@ function SectionHeading({ badge, title, sub, light = false }) {
     >
       <span
         style={{
-          fontSize: 11,
+          fontSize: 16,
           fontWeight: 700,
           color: "#FF8C42",
           letterSpacing: 2,
@@ -805,6 +810,7 @@ function SectionHeading({ badge, title, sub, light = false }) {
           display: "block",
           marginBottom: 10,
           fontFamily: "'Poppins',sans-serif",
+          
         }}
       >
         {badge}
@@ -908,11 +914,11 @@ export default function ReviewMaterLanding() {
             left: 0,
             right: 0,
             zIndex: 100,
-            padding: "0 5%",
+            padding: "0px 5%",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            height: 68,
+            height: 80,
             background: scrolled ? "rgba(5,14,28,0.94)" : "transparent",
             backdropFilter: scrolled ? "blur(20px)" : "none",
             borderBottom: scrolled ? "1px solid rgba(255,140,66,0.1)" : "none",
@@ -922,10 +928,11 @@ export default function ReviewMaterLanding() {
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div
               style={{
-                width: 34,
-                height: 34,
-                borderRadius: 9,
-                background: "linear-gradient(135deg,#073057,#0a4a8a)",
+                width: 60,
+                height: 60,
+                borderRadius: "50%",
+                // background: "linear-gradient(135deg,#073057,#0a4a8a)",
+                background: "white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -935,17 +942,22 @@ export default function ReviewMaterLanding() {
                 border: "2px solid #FF8C42",
               }}
             >
-              R
+              <img
+                src={logo}
+                alt="logo"
+                style={{ width: "50px", height: "50px" }}
+              />
             </div>
+
             <span
               style={{
                 fontWeight: 800,
                 fontSize: 19,
-                fontFamily: "'Poppins',sans-serif",
+                fontFamily: "'Sora',sans-serif",
                 color: "white",
               }}
             >
-              Review<span style={{ color: "#FF8C42" }}>Mater</span>
+              Review <span style={{ color: "#FF8C42" }}> Mater</span>
             </span>
           </div>
           <div
@@ -978,7 +990,7 @@ export default function ReviewMaterLanding() {
             <button
               className="btn-primary"
               style={{ padding: "4px 12px", fontSize: 13 }}
-              onClick={()=> window.location.href = "/login"}
+              onClick={() => (window.location.href = "/login")}
             >
               Get Started Free
             </button>
@@ -1081,7 +1093,7 @@ export default function ReviewMaterLanding() {
                   fontFamily: "'Poppins',sans-serif",
                 }}
               >
-                AI-Powered Google Review Generation
+                AI-Powered Review Generation
               </span>
             </div>
             <h1
@@ -1122,7 +1134,8 @@ export default function ReviewMaterLanding() {
               — negative feedback private rakhta hai aur Google Ranking boost
               karta hai.
             </p>
-            <div
+
+            {/* <div
               className="hero-btns"
               style={{
                 display: "flex",
@@ -1145,7 +1158,8 @@ export default function ReviewMaterLanding() {
               >
                 ▶ Demo Dekhein
               </button>
-            </div>
+            </div> */}
+
             <div
               className="hero-stats"
               style={{
@@ -1282,7 +1296,7 @@ export default function ReviewMaterLanding() {
               </span>
               <h2
                 style={{
-                  fontSize: "clamp(26px,3.5vw,44px)",
+                  fontSize: "clamp(16px,2.5vw,26px)",
                   fontWeight: 800,
                   fontFamily: "'Poppins',sans-serif",
                   lineHeight: 1.15,
@@ -1310,11 +1324,13 @@ export default function ReviewMaterLanding() {
               </p>
               <button
                 className="btn-primary"
-                style={{ padding: "13px 28px", fontSize: 14 }}
+                style={{ padding: "5px 10px", fontSize: 14 }}
+                onClick={() => (window.location.href = "/login")}
               >
                 Start Getting Reviews →
               </button>
             </div>
+
             <div
               style={{
                 display: "grid",
@@ -1383,14 +1399,14 @@ export default function ReviewMaterLanding() {
               icon="👆"
               title="Share Experience"
               delay={150}
-              desc="Simple page open hoga — sirf ek option tap karo: Excellent, Good, ya Average."
+              desc="Simple page open hoga — Sirf Rating pe click kro aur service ke according tags choose kro."
             />
             <StepCard
               num="03"
               icon="✨"
               title="AI Auto-Posts"
               delay={300}
-              desc="AI professional review generate karta hai. Customer 'Post' click kare — seedha Google par live!"
+              desc="AI professional human review generate karta hai tags and ratings pe. Customer 'Post' click kare — seedha Google review par redirect!"
             />
           </div>
           <div
@@ -1483,7 +1499,7 @@ export default function ReviewMaterLanding() {
               icon="📊"
               delay={300}
               title="Smart Dashboard"
-              desc="Real-time insights — kitne reviews aye, average rating, keyword performance, aur negative feedback trends."
+              desc="Real-time insights — kitne reviews aye, average rating, keyword performance, negative feedback trends, aur sentiment analysis check jo aapke business ko improve krega."
             />
           </div>
         </section>
@@ -1694,7 +1710,27 @@ export default function ReviewMaterLanding() {
                 lineHeight: 1.2,
               }}
             >
-              Aaj Hi Shuru Karein — 14 Din Free
+              Aaj Hi Shuru Karein —
+              <span
+                style={{
+                  fontSize: "clamp(20px,3vw,35px)",
+                  fontWeight: 800,
+                  fontFamily: "'Poppins',sans-serif",
+                  color: "white",
+                  marginBottom: 14,
+                  lineHeight: 1.2,
+                }}
+              >
+                Customer Se{" "}
+                <span
+                  style={{
+                    color: "#FF8C42",
+                  }}
+                >
+                  Free Generate
+                </span>{" "}
+                Krae 15 Review Tak
+              </span>
             </h2>
             <p
               style={{
@@ -1729,6 +1765,7 @@ export default function ReviewMaterLanding() {
                   boxShadow: "0 6px 20px rgba(255,140,66,0.35)",
                   fontFamily: "'Poppins',sans-serif",
                 }}
+                onClick={() => (window.location.href = "/login")}
               >
                 Free Trial Shuru Karein →
               </button>
@@ -1826,8 +1863,7 @@ export default function ReviewMaterLanding() {
                     fontFamily: "'Poppins',sans-serif",
                   }}
                 >
-                  India's most advanced AI-powered Google review generation
-                  platform.
+                  India's most advanced AI-powered review generation platform.
                 </p>
               </div>
               {[
@@ -1899,9 +1935,10 @@ export default function ReviewMaterLanding() {
                   fontFamily: "'Poppins',sans-serif",
                 }}
               >
-                © 2025 ReviewMater. Made with ❤️ in India.
+                © 2026 ReviewMater. Made with ❤️ in India.
               </p>
-              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+
+              {/* <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                 <GoogleG size={14} />
                 <span
                   style={{
@@ -1912,7 +1949,7 @@ export default function ReviewMaterLanding() {
                 >
                   Trusted Google Partner
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </footer>

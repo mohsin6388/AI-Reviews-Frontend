@@ -159,9 +159,6 @@ const DashboardPage = () => {
     }
   };
 
-  // const handleCopyLink = () => {
-  //   navigator.clipboard.writeText(result.reviewPageUrl);
-  // };
 
    const handleCopyLink = async () => {
      try {
@@ -183,19 +180,6 @@ const DashboardPage = () => {
     link.download = `${result.business.name}-QR-Code.png`;
     link.click();
   };
-
-  // const handleCreateAnother = () => {
-  //   setResult(null);
-  //   setForm({ name: '', type: '', google_place_id: '', owner_email: '' });
-  // };
-
-  // // Greeting based on time
-  // const getGreeting = () => {
-  //   const h = new Date().getHours();
-  //   if (h < 12) return 'Good Morning';
-  //   if (h < 17) return 'Good Afternoon';
-  //   return 'Good Evening';
-  // };
 
 
   return (
@@ -223,7 +207,7 @@ const DashboardPage = () => {
               letterSpacing: "0.3px",
             }}
           >
-            Review Booster
+            Review Mater
           </span>
         </div>
         <div className="dash-nav-right">
@@ -539,71 +523,6 @@ const DashboardPage = () => {
         </main>
       </div>
 
-      <div>
-        <div className="pricing-container">
-          <div className="pricing-card">
-            <h3>Starter / Trial</h3>
-            <p className="target">Chote Vendors, Naye Cafes</p>
-
-            <ul>
-              <li>✔ 1 Acrylic QR Standee</li>
-              <li>✔ Basic AI Engine</li>
-              <li>✔ Up to 50 Reviews / Month</li>
-            </ul>
-
-            <div className="price">
-              <h2>₹999</h2>
-              <span>One-Time Setup</span>
-            </div>
-
-            <p className="monthly">₹799 / month</p>
-
-            <button>Get Started</button>
-          </div>
-
-          <div className="pricing-card featured">
-            <span className="badge">Most Popular</span>
-
-            <h3>Growth Plan</h3>
-            <p className="target">Restaurants, Salons, Clinics</p>
-
-            <ul>
-              <li>✔ 2 Premium Acrylic Standees</li>
-              <li>✔ Unlimited AI Reviews</li>
-              <li>✔ Negative Review Filter</li>
-            </ul>
-
-            <div className="price">
-              <h2>₹1,499</h2>
-              <span>One-Time Setup</span>
-            </div>
-
-            <p className="monthly">₹999 / month</p>
-
-            <button>Choose Plan</button>
-          </div>
-
-          <div className="pricing-card">
-            <h3>Enterprise</h3>
-            <p className="target">Hotels & Multi-Location Brands</p>
-
-            <ul>
-              <li>✔ Custom Branded Standees</li>
-              <li>✔ Centralized Dashboard</li>
-              <li>✔ Multiple Branch Management</li>
-            </ul>
-
-            <div className="price">
-              <h2>Custom</h2>
-              <span>Pricing</span>
-            </div>
-
-            <p className="monthly">Starting ₹1,999/month</p>
-
-            <button>Contact Sales</button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
