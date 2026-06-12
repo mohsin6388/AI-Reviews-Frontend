@@ -84,7 +84,7 @@ const LoginPage = () => {
             </p>
 
             <p className="tagline-body">
-              Review Booster helps businesses collect powerful customer
+              Review Ninja Pro helps businesses collect powerful customer
               feedback, improve online reputation, and convert visitors into
               loyal customers.
             </p>
