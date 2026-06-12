@@ -21,7 +21,7 @@ const ContactUs = () => {
     const { name, email, phone, message } = formData;
 
     // Apna WhatsApp number yaha daalo with country code
-    const whatsappNumber = "919999999999";
+    const whatsappNumber = "918750200899";
 
     const text = `
 Hello,

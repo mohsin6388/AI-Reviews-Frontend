@@ -61,11 +61,17 @@ const LoginPage = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "flex-start",
-              width: "100%",
+              width: "200px",
               paddingTop: 20,
+              paddingLeft: 40,
             }}
           >
-            <img src={logo} alt="Logo" className="logo" />
+            <img
+              src={logo}
+              alt="Logo"
+              className="logo"
+              style={{ width: "200px", height: "auto", display: "block" }}
+            />
           </div>
 
           <div style={{ marginTop: 40 }}>

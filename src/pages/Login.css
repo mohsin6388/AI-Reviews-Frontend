@@ -256,8 +256,9 @@
   }
 
   .logo {
-    width: 120px !important;
-    height: 120px !important;
+    width: 80px !important;
+    height: auto !important;
+    display: block;
   }
 }
 

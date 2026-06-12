@@ -18,6 +18,7 @@ import ContactUs from '../components/ContactUs';
 import TermsAndCondition from '../components/TermsAndCondition';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import Guide from '../components/Guide';
+import MySubscriptions from "./MySubscriptions";
 
 
 const DashboardPage = () => {
@@ -30,6 +31,7 @@ const DashboardPage = () => {
   // Businesses list
   const [businesses, setBusinesses] = useState([]);
   const [bizLoading, setBizLoading] = useState(true);
+  const [outLoading, setOutLoading] = useState(false);
   const [showPlaceIdHelp, setShowPlaceIdHelp] = useState(false);
   
 
@@ -103,7 +105,7 @@ const DashboardPage = () => {
 
 
   const handleLogout = async () => {
-    setLoading(true)
+    setOutLoading(true);
   try {
     await api.post("/auth/logout");
 
@@ -116,7 +118,7 @@ const DashboardPage = () => {
       error
     );
   } finally {
-    setLoading(false);
+    setOutLoading(false);
   }
 };
 
@@ -207,7 +209,7 @@ const DashboardPage = () => {
               letterSpacing: "0.3px",
             }}
           >
-            Review Mater
+            Review Ninja Pro
           </span>
         </div>
         <div className="dash-nav-right">
@@ -222,7 +224,27 @@ const DashboardPage = () => {
             onClick={handleLogout}
             disabled={loading}
           >
-            {loading ? "Logging out..." : "Logout"}
+          
+            {outLoading ? (
+              <span
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <span
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                    border: "2px solid white",
+                    borderTopColor: "transparent",
+                    borderRadius: "50%",
+                    display: "inline-block",
+                    animation: "spin 1s linear infinite",
+                  }}
+                />
+                Logging out...
+              </span>
+            ) : (
+              "Logout"
+            )}
           </button>
         </div>
       </header>
@@ -252,7 +274,14 @@ const DashboardPage = () => {
               className={`sidebar-item ${activeTab === "payments" ? "active" : ""}`}
               onClick={() => setActiveTab("payments")}
             >
-              Payment Method
+              Plans & Billing
+            </button>
+
+            <button
+              className={`sidebar-item ${activeTab === "subscription" ? "active" : ""}`}
+              onClick={() => setActiveTab("subscription")}
+            >
+              My Subscriptions
             </button>
 
             <button
@@ -511,6 +540,8 @@ const DashboardPage = () => {
 
           {/* PAYMENT TAB */}
           {activeTab === "payments" && <PaymentPage user={user} />}
+
+          {activeTab === "subscription" && <MySubscriptions user={user} />}
 
           {/* SETTINGS TAB */}
           {activeTab === "settings" && <ContactUs />}

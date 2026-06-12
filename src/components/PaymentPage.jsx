@@ -17,10 +17,14 @@ const PaymentPage = ({user}) => {
         const { data } = await api.get(
           `/payment/check-payment/${user.id}`);
 
-        console.log(data);
 
-        setPaymentInfo(data);
-        setLoading(false)
+          
+             setPaymentInfo(data);
+             setLoading(false)
+             console.log("dekho data aa gya hai ==> ", paymentInfo?.data?.plan_name);
+               
+
+       
       } catch (error) {
         console.log(error);
       } finally {
@@ -33,7 +37,8 @@ const PaymentPage = ({user}) => {
     }
   }, [user]);
 
-  const handlePayment = async () => {
+  const handlePayment = async (id) => {
+  
     try {
 
       const token = localStorage.getItem("rb_token");
@@ -43,7 +48,7 @@ const PaymentPage = ({user}) => {
         {
           user_id: user.id,
           // amount: 999,
-          plan_id: "Premium",
+          plan_name: id,
         },
         {
           headers: {
@@ -63,7 +68,7 @@ const PaymentPage = ({user}) => {
 
         order_id: data.order.id,
 
-        name: "Review Booster",
+        name: "Review Ninja Pro",
 
         description: "Premium Plan",
 
@@ -132,95 +137,158 @@ const PaymentPage = ({user}) => {
 
 
 
-  const isSubscriptionActive =
-  paymentInfo?.isPaid &&
-  paymentInfo?.isSubscriptionActive;
+  // const isSubscriptionActive =
+  // paymentInfo?.isPaid &&
+  // paymentInfo?.isSubscriptionActive;
 
   return (
     <div className="pricing-page animate-fadeIn">
-      {isSubscriptionActive ? (
-        <div className="subscription-card">
-          <h1>🎉 Premium Plan Active</h1>
+      <>
+        <div className="pricing-header">
+          <h1>Choose Your Plan</h1>
 
-          <div className="subscription-details">
-            <div>
-              <h4>Plan</h4>
-              <p>Premium</p>
+          <p>Start collecting more Google reviews with powerful QR tools.</p>
+        </div>
+
+        <div className="pricing-grid">
+          {/* Starter CARD */}
+          <div className="pricing-card">
+            <span className="plan-badge">Starter Plan</span>
+
+            <p
+              style={{
+                color: "#7a818d",
+                fontSize: "12px",
+                paddingBottom: "5px",
+              }}
+            >
+              Setup: ₹999 one-time
+            </p>
+
+            <h2>
+              ₹799
+              <span style={{ color: "#6b7280", fontSize: "15px" }}>/month</span>
+            </h2>
+
+            {/* <p className="plan-duration">per month</p> */}
+
+            <div className="plan-features" style={{ paddingTop: "20px" }}>
+              <p>✔ 1 Acrylic QR Standee</p>
+              <p>✔ Basic AI Engine</p>
+              <p>✔ 50 Reviews/month</p>
+              <p>✔ Negative Feedback Filter</p>
+              <p>✔ Email Support</p>
             </div>
 
-            <div>
-              <h4>Payment Date</h4>
-              <p>
-                {new Date(paymentInfo.payment.paid_at).toLocaleDateString(
-                  "en-IN",
-                )}
-              </p>
+            <button
+              onClick={() => handlePayment("starter")}
+              className={`buy-btn ${paymentInfo?.data?.plan_name === "starter" ? "opacity-50 cursor-not-allowed" : ""}`}
+              disabled={paymentInfo?.data?.plan_name === "starter"}
+            >
+              {paymentInfo?.data?.plan_name === "starter"
+                ? "Current Plan"
+                : "Buy Now"}
+            </button>
+
+            {/* <button
+              onClick={() => handlePayment("starter")}
+              className={`buy-btn ${
+                paymentInfo?.data?.plan_name === "starter"
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              disabled={
+                paymentInfo?.data?.plan_name ===
+                "starter"
+              }
+            >
+              Buy Now
+            </button> */}
+          </div>
+
+          {/* PREMIUM CARD */}
+          <div className="pricing-card">
+            <span className="plan-badge">Premium Plan</span>
+
+            <p
+              style={{
+                color: "#7a818d",
+                fontSize: "12px",
+                paddingBottom: "5px",
+              }}
+            >
+              Setup: ₹1,499 one-time
+            </p>
+
+            <h2>
+              ₹999
+              <span style={{ color: "#6b7280", fontSize: "15px" }}>/month</span>
+            </h2>
+            {/* <p className="plan-duration">per month</p> */}
+
+            <div className="plan-features" style={{ paddingTop: "20px" }}>
+              <p>✔ 2 Premium Acrylic Standees</p>
+              <p>✔ Unlimited AI Reviews</p>
+              <p>✔ Negative Review Filter</p>
+              <p>✔ Keyword-Rich AI Reviews</p>
+              <p>✔ Priority Support</p>
             </div>
 
-            <div>
-              <h4>Expiry Date</h4>
-              <p>
-                {new Date(paymentInfo.payment.end_date).toLocaleDateString(
-                  "en-IN",
-                )}
-              </p>
+            <button
+              onClick={() => handlePayment("premium")}
+              className={`buy-btn ${paymentInfo?.data?.plan_name === "premium" ? "opacity-50 cursor-not-allowed" : ""}`}
+              disabled={paymentInfo?.data?.plan_name === "premium"} // ✅ optional chaining lagao
+            >
+              {paymentInfo?.data?.plan_name === "premium"
+                ? "Current Plan"
+                : "Buy Now"}
+            </button>
+
+            {/* <button
+              className="buy-btn"
+              onClick={() => handlePayment("premium")}
+              disabled={paymentInfo?.data.plan_name === "premium"}
+            >
+              Buy Now
+            </button> */}
+          </div>
+
+          <div className="pricing-card">
+            <span className="plan-badge">Enterprise Plan</span>
+
+            <p
+              style={{
+                color: "#7a818d",
+                fontSize: "12px",
+                paddingBottom: "5px",
+              }}
+            >
+              Min. ₹1,999/month
+            </p>
+
+            <h2>Custom</h2>
+
+            {/* <p className="plan-duration">per month</p> */}
+
+            <div className="plan-features" style={{ paddingTop: "20px" }}>
+              <p>✔ Custom Branded Standees</p>
+              <p>✔ Centralized Dashboard</p>
+              <p>✔ Unlimited Reviews & Locations</p>
+              <p>✔ API Access & Integrations</p>
+              <p>✔ Customer Review Analytics</p>
             </div>
 
-            <div>
-              <h4>Status</h4>
-              <p>Active ✅</p>
-            </div>
+            <button className="buy-btn">
+              <a
+                href="https://wa.me/918750200899"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Contact Now
+              </a>
+            </button>
           </div>
         </div>
-      ) : (
-        <>
-          <div className="pricing-header">
-            <h1>Choose Your Plan</h1>
-
-            <p>Start collecting more Google reviews with powerful QR tools.</p>
-          </div>
-
-          <div className="pricing-grid">
-            {/* FREE CARD */}
-            <div className="pricing-card">
-              <span className="plan-badge">Free Plan</span>
-
-              <h2>₹0</h2>
-
-              <p className="plan-duration">Zero Fees</p>
-
-              <div className="plan-features">
-                <p>✔ 15 reviews monthly</p>
-                <p>✔ QR Code Generator</p>
-                <p>✔ Review Dashboard</p>
-                <p>✔ Basic Analytics</p>
-                <p>❌ Customer Review Analytics</p>
-              </div>
-            </div>
-
-            {/* PREMIUM CARD */}
-            <div className="pricing-card">
-              <span className="plan-badge">Premium Plan</span>
-
-              <h2>₹999</h2>
-
-              <p className="plan-duration">per month</p>
-
-              <div className="plan-features">
-                <p>✔ 100 Reviews</p>
-                <p>✔ QR Code Generator</p>
-                <p>✔ Review Dashboard</p>
-                <p>✔ Basic Analytics</p>
-                <p>✔ Customer Review Analytics</p>
-              </div>
-
-              <button className="buy-btn" onClick={handlePayment}>
-                Buy Now
-              </button>
-            </div>
-          </div>
-        </>
-      )}
+      </>
     </div>
   );
 

@@ -145,7 +145,7 @@ function PhoneMockup() {
           </div>
           <div>
             <div style={{ fontWeight: 700, fontSize: 11, color: "#111" }}>
-              Review Mater
+              Review Ninja Pro
             </div>
             <div style={{ fontSize: 9, color: "#6b7280" }}>
               Thanks for visiting!
@@ -903,7 +903,6 @@ export default function ReviewMaterLanding() {
           color: "white",
           overflowX: "hidden",
           minHeight: "100vh",
-          fontFamily: "'Poppins',sans-serif",
         }}
       >
         {/* NAVBAR */}
@@ -936,7 +935,7 @@ export default function ReviewMaterLanding() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontWeight: 900,
+                fontWeight: 600,
                 fontSize: 17,
                 color: "white",
                 border: "2px solid #FF8C42",
@@ -957,7 +956,7 @@ export default function ReviewMaterLanding() {
                 color: "white",
               }}
             >
-              Review <span style={{ color: "#FF8C42" }}> Mater</span>
+              Review <span style={{ color: "#FF8C42" }}> Ninja</span> Pro
             </span>
           </div>
           <div
@@ -989,7 +988,7 @@ export default function ReviewMaterLanding() {
             </button> */}
             <button
               className="btn-primary"
-              style={{ padding: "4px 12px", fontSize: 13 }}
+              style={{ padding: "0px 12px", fontSize: 13 }}
               onClick={() => (window.location.href = "/login")}
             >
               Get Started Free
@@ -1059,9 +1058,10 @@ export default function ReviewMaterLanding() {
               maxWidth: 820,
               margin: "0 auto",
               width: "100%",
+              paddingTop: 80
             }}
           >
-            <div
+            {/* <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -1095,12 +1095,11 @@ export default function ReviewMaterLanding() {
               >
                 AI-Powered Review Generation
               </span>
-            </div>
+            </div> */}
             <h1
               style={{
-                fontSize: "clamp(36px,6.5vw,72px)",
-                fontWeight: 800,
-                fontFamily: "'Poppins',sans-serif",
+                fontSize: "clamp(30px,6vw,65px)",
+                fontWeight: 700,
                 lineHeight: 1.1,
                 color: "white",
                 marginBottom: 20,
@@ -1108,7 +1107,7 @@ export default function ReviewMaterLanding() {
                 animation: heroVis ? "fadeSlideUp 0.7s ease 0.1s both" : "none",
               }}
             >
-              Turn Every Customer Into a{" "}
+              Turn Every Customer <br/> Into a{" "}
               <span
                 style={{
                   background: "linear-gradient(135deg,#FF8C42,#ffb380)",
@@ -1475,7 +1474,7 @@ export default function ReviewMaterLanding() {
           >
             <SectionHeading
               badge="KEY FEATURES"
-              title={`What Makes Review Mater <span style="color:#FF8C42">Different</span>`}
+              title={`What Makes Review Ninja Pro <span style="color:#FF8C42">Different</span>`}
             />
             <FeatureItem
               icon="🤖"
@@ -1655,7 +1654,7 @@ export default function ReviewMaterLanding() {
             <FAQItem
               delay={0}
               q="Kya yeh Google ke Terms of Service ke against hai?"
-              a="Bilkul nahi. Review Mater customers ke genuine experiences ko conveniently share karne mein madad karta hai. AI sirf writing assist karta hai — content genuine experience par based hota hai. Google TOS compliant hai."
+              a="Bilkul nahi. Review Ninja Pro customers ke genuine experiences ko conveniently share karne mein madad karta hai. AI sirf writing assist karta hai — content genuine experience par based hota hai. Google TOS compliant hai."
             />
             <FAQItem
               delay={80}
@@ -1885,7 +1884,7 @@ export default function ReviewMaterLanding() {
                       color: "white",
                     }}
                   >
-                    Review <span style={{ color: "#FF8C42" }}> Mater</span>
+                    Review <span style={{ color: "#FF8C42" }}> Ninja</span> Pro
                   </span>
                 </div>
                 <p
@@ -1970,7 +1969,7 @@ export default function ReviewMaterLanding() {
                   fontFamily: "'Poppins',sans-serif",
                 }}
               >
-                © 2026 ReviewMater. Made with ❤️ in India.
+                © 2026 Review Ninja Pro. Made with ❤️ in India.
               </p>
 
               {/* <div style={{ display: "flex", gap: 6, alignItems: "center" }}>

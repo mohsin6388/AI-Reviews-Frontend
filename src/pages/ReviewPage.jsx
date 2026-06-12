@@ -259,7 +259,7 @@ const ReviewPage = () => {
       <div className="footer-brand">
         <span>Powered by</span>
         <img src={logo} alt="" style={{ height: "30px", width: "30px" }} />
-        <span className="brand-name">Review Booster</span>
+        <span className="brand-name">Review Ninja Pro</span>
       </div>
     </div>
   );

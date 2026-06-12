@@ -37,16 +37,31 @@ const SignupPage = () => {
     }
     setError("");
     setLoading(true);
+
     try {
+
       const res = await api.post("/auth/signup", {
         name: form.name,
         email: form.email,
         password: form.password,
       });
-      login(res.data.user, res.data.token);
-      navigate("/dashboard");
+
+      console.log("It is running ============")
+      console.log(res?.data)
+      
+      if(res?.data?.success === true){
+        login(res.data.user, res.data.token);
+        navigate("/dashboard");
+      } else {
+        setError(res?.data?.message || "Something went wrong");
+      }
+
+
     } catch (err) {
-       setError(err.message);
+       setError(
+         err.response?.data?.message || err.message || "Something went wrong",
+       );
+       
 } finally {
       setLoading(false);
     }
