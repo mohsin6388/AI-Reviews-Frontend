@@ -151,10 +151,14 @@ const DashboardPage = () => {
         setResult(res.data);
 
         setBusinesses((prev) => [...prev, res.data.business]);
+      } else {
+        console.log("==========>", res?.data)
+        setError(res?.data.error);
       }
     } catch (err) {
+      console.log("okay ==========>", err?.response?.data?.error);
       setError(
-        err?.response?.data?.message || err?.message || "Kuch galat ho gaya",
+        err?.response?.data?.error // || err?.message || "Kuch galat ho gaya",
       );
     } finally {
       setLoading(false);
